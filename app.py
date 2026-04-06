@@ -749,6 +749,17 @@ def generate_pdf_report(
 # ===================================================================
 st.markdown('<div class="hero-title">EV Charging Infrastructure Cost Estimator</div>', unsafe_allow_html=True)
 st.markdown('<div class="hero-sub">Configure your charging station, pick an analysis, and get detailed cost results instantly.</div>', unsafe_allow_html=True)
+st.markdown(
+    '<div style="text-align:center; margin-bottom:2rem;">'
+    '<a href="https://www.diva-portal.org/smash/record.jsf?dswid=1523&pid=diva2%3A2007635&c=5&searchType=SIMPLE&language=en&query=investment+cost+charging+infrastructure+heavy+duty&af=%5B%5D&aq=%5B%5B%5D%5D&aq2=%5B%5B%5D%5D&aqe=%5B%5D&noOfRows=50&sortOrder=author_sort_asc&sortOrder2=title_sort_asc&onlyFullText=true&sf=all" '
+    'target="_blank" style="margin-right:1.5rem; color:#0066FF; font-weight:600; text-decoration:none;">'
+    'Full Report</a>'
+    '<a href="https://github.com/davide-ferraro/ev-charging-cost-estimator" '
+    'target="_blank" style="color:#0066FF; font-weight:600; text-decoration:none;">'
+    'GitHub</a>'
+    '</div>',
+    unsafe_allow_html=True,
+)
 
 
 # ===================================================================
