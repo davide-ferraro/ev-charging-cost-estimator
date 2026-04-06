@@ -438,8 +438,11 @@ REPORT_URL = (
 
 
 def _fig_to_bytes(fig, width=900, height=500):
-    """Render a Plotly figure to PNG bytes via kaleido."""
-    return fig.to_image(format="png", width=width, height=height, scale=2)
+    """Render a Plotly figure to PNG bytes via kaleido. Returns None if unavailable."""
+    try:
+        return fig.to_image(format="png", width=width, height=height, scale=2)
+    except Exception:
+        return None
 
 
 def _parse_euro(val):
@@ -670,11 +673,12 @@ def generate_pdf_report(
         pdf.section_title(section_num, "Sensitivity Analysis")
         fig_idx = 0
         for param, value_dict in sensitivity_results.items():
-            # Chart first (portrait)
+            # Chart first (portrait) – skipped if kaleido unavailable
+            pdf.sub_heading(f"Varying: {param}")
             if sensitivity_figures and fig_idx < len(sensitivity_figures):
-                pdf.sub_heading(f"Varying: {param}")
                 img = _fig_to_bytes(sensitivity_figures[fig_idx])
-                pdf.add_chart_image(img)
+                if img:
+                    pdf.add_chart_image(img)
                 fig_idx += 1
             # Table in landscape (auto-paging)
             cost_components = list(next(iter(value_dict.values())).keys())
@@ -698,7 +702,8 @@ def generate_pdf_report(
             f"{double_y_label or '?'} (colour scale)."
         )
         img = _fig_to_bytes(double_figure, width=1000, height=600)
-        pdf.add_chart_image(img)
+        if img:
+            pdf.add_chart_image(img)
         # summary table
         (x_lbl, y_lbl), subdict = next(iter(double_results.items()))
         headers = [x_lbl, y_lbl, "Total Cost"]
