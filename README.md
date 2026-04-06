@@ -15,6 +15,10 @@ A Streamlit web app for estimating investment costs of EV charging stations. Bas
 - **PDF Report Export** — Generate a full report with inputs, tables, charts, and a methodology reference
 - **Excel Export** — Download individual tables as `.xlsx` files
 
+## Live App
+
+Deployed on Streamlit Community Cloud — [Open the app](https://ev-charging-cost-estimator.streamlit.app)
+
 ## Getting Started
 
 ```bash
@@ -25,10 +29,6 @@ source venv/bin/activate
 pip install -r requirements.txt
 streamlit run app.py
 ```
-
-## Live App
-
-Deployed on Streamlit Community Cloud — [Open the app](https://ev-charging-cost-estimator.streamlit.app)
 
 ## Full Report
 
