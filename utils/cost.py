@@ -425,7 +425,6 @@ def switchgear_cost_function(quantity,power,grid_connection,load_factor,medium_v
         increment_brand= max_increment * wheight_brand
         increment_location= max_increment * wheight_location
 
-        print(current)
         quality_voltage=(medium_voltage-MIN_VOLTAGE)/(MAX_VOLTAGE-MIN_VOLTAGE)
         quality_current=(current- MIN_CURRENT)/(MAX_CURRENT-MIN_CURRENT)
         quality_quality=1

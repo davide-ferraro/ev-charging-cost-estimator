@@ -59,22 +59,22 @@ def compute_all_costs(input, case, select_material, select_land_type):
     chargers_cost = charger_cost_function(
         input["Number of chargers"],
         input["Power of chargers [kW]"])
-    print(1)
+
     rectifier_cost = rectifier_cost_function(
         input["Number of chargers"],
         input["Power of chargers [kW]"])
-    print(2)
+
     low_voltage_cabinet_cost = lv_cabinet_cost_function(
         input["Number of chargers"],
         input["Power of chargers [kW]"],
         input["Low Voltage level [V]"])
-    print(3)
+
     cables_rectifier_to_chargers_cost = cables_rectifier_to_chargers_cost_function(
         input["Number of chargers"],
         input["Power of chargers [kW]"],
         input["Low Voltage level [V]"],
         input["Distance between the rectifier and the chargers [meters]"])
-    print(4)
+
     cables_LV_distribution_to_site_cost = cables_LV_distribution_to_site_cost_function(
         input["Number of chargers"],
         input["Power of chargers [kW]"],
@@ -83,7 +83,7 @@ def compute_all_costs(input, case, select_material, select_land_type):
         input["Grid Connection capacity [kVA]"],
         input["Load Power Factor"],
         case)
-    print(5)
+
     cables_MV_distribution_to_site_cost = cables_MV_distribution_to_site_cost_function(
         input["Number of chargers"],
         input["Power of chargers [kW]"],
@@ -92,15 +92,14 @@ def compute_all_costs(input, case, select_material, select_land_type):
         input["Grid Connection capacity [kVA]"],
         input["Load Power Factor"],
         case)
-    print(6)
+
     surge_arresters_cost = surge_arresters_cost_function(
         input["Medium Voltage level [kV]"],
         case)
-    print(7)
+
     grounding_resistor_cost = grounding_resistors_cost_function(
         input["Medium Voltage level [kV]"],
         case)
-    print(8)
 
     transformer_cost = transformer_cost_function(
         input["Number of chargers"],
@@ -109,7 +108,7 @@ def compute_all_costs(input, case, select_material, select_land_type):
         input["Load Power Factor"],
         input["Transformer size safety margin for your new transformer [%]"],
         case)
-    print(9)
+
     switchgear_cost = switchgear_cost_function(
         input["Number of chargers"],
         input["Power of chargers [kW]"],
@@ -117,7 +116,7 @@ def compute_all_costs(input, case, select_material, select_land_type):
         input["Load Power Factor"],
         input["Medium Voltage level [kV]"],
         case)
-    print(10)
+
     MV_cable_installation_cost=MV_cable_installation_cost_function(
         cables_MV_distribution_to_site_cost,
         input["Distance between your premises and the closest Medium Voltage Access point [meters]"],
@@ -135,12 +134,12 @@ def compute_all_costs(input, case, select_material, select_land_type):
         input["Number of chargers"],
         input["Power of chargers [kW]"],
         case)
-    print(11)
+
     site_preparation_cost = site_preparation_cost_function(
         input["Land to prepare for hosting the parking lot [m^2]"],
         select_material,
         select_land_type)
-    print(12)
+
     return {
         "chargers_cost": chargers_cost,
         "rectifier_cost": rectifier_cost,
@@ -253,10 +252,8 @@ def sensitivity_step(min_val, max_val,label):
     }
     #range_span = max_val - min_val
     if label in custom_steps:
-        print("CIAOOOO")
-        return custom_steps[label]    
+        return custom_steps[label]
     else:
-        print("NOOOOO")
         return 0
 
 def cost_breakdown_double_sensitivity_calculation(input, trafo_presence, select_material, select_land_type, x_label, y_label):
@@ -283,28 +280,14 @@ def cost_breakdown_double_sensitivity_calculation(input, trafo_presence, select_
     x_min, x_max, x_step= range_dict[x_label]
     y_min, y_max, y_step = range_dict[y_label]
 
-    print(x_min)
-    print(x_max)
-    
-    print(y_min)
-    print(y_max)
-    
-    """ x_step = sensitivity_step(x_label, x_min, x_max)
-    y_step = sensitivity_step(y_label, y_min, y_max)"""
-
-    print(x_step)
-    print(y_step)
-
     for x in frange(x_min, x_max, x_step):
         for y in frange(y_min, y_max, y_step):
-            print(f'{x}-{y}')
             modified_input = input.copy()
             modified_input[x_label] = x
             modified_input[y_label] = y
 
             case = case_definition(modified_input, trafo_presence)
             costs = compute_all_costs(modified_input, case, select_material, select_land_type)
-            print(round(costs['chargers_cost'], 0))
             results[(x_label, y_label)][(x, y)] = {
                 "Cables MVAC (Distribution-Site)": f"€{round(costs['cables_MV_distribution_to_site_cost'], 0):,.2f}",
                 "Transformer": f"€{round(costs['transformer_cost'], 0):,.2f}",
