@@ -1,0 +1,249 @@
+eu_hdv:
+  type: Web
+  title: "Heavy-duty vehicles"
+  author: "European Commission"
+  url: "https://climate.ec.europa.eu/eu-action/transport-decarbonisation/road-transport/heavy-duty-vehicles_en"
+  date: 2024
+
+climate_change_connection:
+  type: Web
+  title: "Tailpipe Emissions"
+  author: "Climate Change Connection"
+  url: "https://climatechangeconnection.org/emissions/tailpipe-emissions/"
+
+iea_gev_2023:
+  type: Web
+  title: "Global EV Outlook 2023"
+  author: "International Energy Agency (IEA)"
+  url: "https://www.iea.org/reports/global-ev-outlook-2023"
+  date: 2023
+
+acea_masterplan:
+  type: Web
+  title: "A European EV Charging Infrastructure Masterplan"
+  author: ["ACEA", "ChargeUp Europe", "Transport & Environment"]
+  url: "https://www.acea.auto/files/Research-Whitepaper-A-European-EV-Charging-Infrastructure-Masterplan.pdf"
+  date: 2022
+
+mckinsey_overnight:
+  type: Web
+  title: "Why most eTrucks will choose overnight charging"
+  author: "McKinsey & Company"
+  url: "https://www.mckinsey.com/industries/automotive-and-assembly/our-insights/why-most-etrucks-will-choose-overnight-charging"
+  date: 2022
+
+icct_costs:
+  type: Web
+  title: "Estimating Charging Infrastructure Costs for Electric Trucks"
+  author: "International Council on Clean Transportation"
+  url: "https://theicct.org/wp-content/uploads/2022/12/charging-infrastructure-trucks-zeva-dec22.pdf"
+  date: 2022
+
+tesla_supercharger:
+  type: Web
+  title: "Supercharger Network"
+  author: "Tesla, Inc."
+  url: "https://www.tesla.com/supercharger"
+
+afir:
+  type: Web
+  title: "Regulation (EU) 2023/1804 of the European Parliament and of the Council of 13 September 2023 on the deployment of alternative fuels infrastructure, and repealing Directive 2014/94/EU"
+  author: "Official Journal of the European Union"
+  url: "https://eur-lex.europa.eu/eli/reg/2023/1804/oj/eng"
+  date: 2023
+
+mckinsey_charging:
+  type: Web
+  title: "Building Europe's Electric-Truck Charging Infrastructure"
+  author: ["Broer, Benno", "Tschiesner, Andreas", "Stuchtey, Martin", "Müller, Nicolai", "Aulbur, Wilfried G."]
+  url: "https://www.mckinsey.com/industries/automotive-and-assembly/our-insights/building-europes-electric-truck-charging-infrastructure"
+  date: 2023
+
+uk_grid_connection:
+  type: Web
+  title: "Improving the Grid Connection Process for Electric Vehicle Charging Infrastructure"
+  author: "UK Department for Transport"
+  url: "https://www.gov.uk/government/publications/improving-the-grid-connection-process-for-electric-vehicle-charging-infrastructure/improving-the-grid-connection-process-for-electric-vehicle-charging-infrastructure"
+  date: 2024
+
+borlaug_lcoc:
+  type: Article
+  title: "Levelized Cost of Charging Electric Vehicles in the United States"
+  author: ["Borlaug, Brennan", "Salisbury, Shawn", "Gerdes, Mindy", "Muratori, Matteo"]
+  parent:
+    type: Periodical
+    title: "Joule"
+    volume: 4
+    issue: 7
+  page-range: 1470-1485
+  date: 2020
+  serial-number: "2542-4351"
+  doi: "10.1016/j.joule.2020.05.013"
+  url: "https://www.sciencedirect.com/science/article/pii/S2542435120302312"
+
+burton_ev:
+  type: Article
+  title: "Evaluating Utility Cost Savings for Electric Vehicle Charging Infrastructure"
+  author: ["Burton, E.", "Melaina, M.", "Bush, B.", "Muratori, M.", "Gonder, J."]
+  parent:
+    type: Periodical
+    title: "National Renewable Energy Laboratory (NREL) Report"
+  page-range: 1-52
+  date: 2020
+  url: "https://docs.nrel.gov/docs/fy20osti/75269.pdf"
+
+te_depot:
+  type: Web
+  title: "Truck Depot Charging – Final Report"
+  author: ["Transport & Environment", "Oeko-Institut", "Fraunhofer ISI"]
+  url: "https://www.transportenvironment.org/uploads/files/TE_truck-depot-charging_final-report.pdf"
+  date: 2022
+
+te_co2:
+  type: Web
+  title: "EU deal on truck charging clears the way for ambitious CO2 targets"
+  author: "Transport & Environment"
+  url: "https://www.transportenvironment.org/articles/eu-deal-on-truck-charging-clears-the-way-for-ambitious-co2-targets-2"
+  date: 2023
+
+usdoe_evse_costs:
+  type: Web
+  title: "Costs Associated With Non-Residential Electric Vehicle Supply Equipment"
+  author: "U.S. Department of Energy, Alternative Fuels Data Center"
+  url: "https://afdc.energy.gov/files/u/publication/evse_cost_report_2015.pdf"
+  date: 2015
+
+cording_fleetrl:
+  type: Article
+  title: "FleetRL: Realistic reinforcement learning environments for commercial vehicle fleets"
+  author: ["Cording, Enzo", "Thakur, Jagruti"]
+  parent:
+    type: Periodical
+    title: "SoftwareX"
+    volume: 26
+  page-range: 101671-101671
+  date: 2024
+  serial-number: "2352-7110"
+  doi: "10.1016/j.softx.2024.101671"
+  url: "https://www.sciencedirect.com/science/article/pii/S2352711024000426"
+
+lanz_lcoc:
+  type: Article
+  title: "Comparing the levelized cost of electric vehicle charging options in Europe"
+  author: ["Lanz, Luca", "Noll, Benjamin", "Schmidt, Tobias S.", "Steffen, Bjarne"]
+  parent:
+    type: Periodical
+    title: "Nature Communications"
+    volume: 13
+  page-range: 5277-5277
+  date: 2022
+  doi: "10.1038/s41467-022-32835-7"
+  url: "https://www.nature.com/articles/s41467-022-32835-7"
+
+rmi_trucks:
+  type: Web
+  title: "How Electric Truck Fleets Can Save Money with Smarter Charging, Solar Power, and Batteries"
+  author: "RMI"
+  url: "https://rmi.org/how-electric-truck-fleets-can-save-money-with-smarter-charging-solar-power-and-batteries/"
+  date: 2023
+
+epa_ev_charging:
+  type: Web
+  title: "Electric Vehicle Charging and Utilities: Understanding the Opportunity"
+  author: "U.S. Environmental Protection Agency"
+  url: "https://www.energystar.gov/sites/default/files/asset/document/EV%20Charging%20and%20Utilities.pdf"
+  date: 2023
+
+hola_mcs:
+  type: Web
+  title: "Megawatt Charging Networks (HoLa project)"
+  author: "HoLa Innovation Cluster"
+  url: "https://hochleistungsladen-lkw.de/hola-en/results/megawatt_charging_networks.php"
+  date: 2021
+
+charin_mcs:
+  type: Web
+  title: "Megawatt Charging System (MCS)"
+  author: "CharIN e.V."
+  url: "https://www.charin.global/technology/mcs/"
+  date: 2024
+
+energy_saving_trust:
+  type: Web
+  title: "Connecting electric vehicle chargepoints to the electricity network"
+  author: "Energy Saving Trust"
+  url: "https://energysavingtrust.org.uk/service/local-government-support-programme/connecting-electric-vehicle-chargepoints/"
+  date: 2025
+
+expert_interviews:
+  type: Web
+  title: "Charging Infrastructure for Battery Electric Trucks: Synthesis of Expert Interviews"
+  author: "Expert Interviews, Synthesis of"
+  date: 2024
+
+ten_t:
+  type: Web
+  title: "Trans-European Transport Network (TEN-T)"
+  author: "European Commission, Directorate-General for Mobility and Transport"
+  url: "https://transport.ec.europa.eu/transport-themes/infrastructure-and-investment/trans-european-transport-network-ten-t_en"
+
+vecto:
+  type: Web
+  title: "Vehicle Energy Consumption Calculation Tool (VECTO)"
+  author: "European Commission, Directorate-General for Climate Action"
+  url: "https://climate.ec.europa.eu/eu-action/transport-decarbonisation/road-transport/vehicle-energy-consumption-calculation-tool-vecto_en"
+
+xu_rl_ev:
+  type: Article
+  title: "Reinforcement Learning Based Smart Charging for Electric Vehicle Fleet"
+  author: ["Xu, Biao", "Rubenis, Aivars", "Long, Chao"]
+  parent:
+    type: Proceedings
+    title: "Intelligent Technology for Future Transportation (ITFT 2024)"
+    volume: 2378
+  page-range: 375-383
+  date: 2025
+
+orfanoudakis_llm:
+  type: Article
+  title: "Optimizing Electric Vehicles Charging using Large Language Models and Graph Neural Networks"
+  author: ["Orfanoudakis, Stavros", "Palensky, Peter", "Vergara, Pedro P."]
+  parent:
+    type: Periodical
+    title: "arXiv preprint arXiv:2502.03067"
+  date: 2025
+  url: "https://arxiv.org/abs/2502.03067"
+
+fleetrl_docs:
+  type: Web
+  title: "Fleet RL Documentation"
+  author: "Fleet RL Contributors"
+  url: "https://fleetrl.readthedocs.io/en/latest/"
+  date: 2024
+
+plötz_truckstops:
+  type: Web
+  title: "Truck Stop Locations in Europe: Final Report"
+  author: ["Plötz, Patrick", "Speth, Daniel"]
+  url: "https://publica.fraunhofer.de/entities/publication/e9695859-88a6-4c5f-9da0-64814a2383bf"
+  date: 2021
+
+open_charge_map:
+  type: Web
+  title: "Open Charge Map: Open Source Electric Vehicle Charging Stations"
+  author: "Open Charge Map project"
+  url: "https://openchargemap.org/site"
+
+csanyi_trafo:
+  type: Web
+  title: "What is the price of a power transformer?"
+  author: "Csanyi, Edvard"
+  url: "https://electrical-engineering-portal.com/price-of-a-transformer"
+  date: 2022
+
+ieee_142:
+  type: Web
+  title: "IEEE Recommended Practice for Grounding of Industrial and Commercial Power Systems (IEEE Std 142-2007)"
+  author: "IEEE"
+  url: "https://hibp.ecse.rpi.edu/~connor/education/Fields/IEEEStd142_2007.pdf"
+  date: 2007

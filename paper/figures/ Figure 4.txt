@@ -1,0 +1,21 @@
+\begin{table}[h!]
+\centering
+\caption{Case Studies}
+\label{tab:case-studies-names}
+\begin{tabular}{|c|c|l|}
+\hline
+\textbf{Name} & \textbf{Type} & \textbf{Country} \\
+\hline
+1IT & 1 & Italy \\
+3IT & 3 & Italy \\
+4IT & 4 & Italy \\
+1DE & 1 & Germany \\
+2DE & 2 & Germany \\
+4DE & 4 & Germany \\
+2UK & 2 & United Kingdom \\
+3UK & 3 & United Kingdom \\
+4UK & 4 & United Kingdom \\
+\hline
+\end{tabular}
+\label{tab:example}
+\end{table}
