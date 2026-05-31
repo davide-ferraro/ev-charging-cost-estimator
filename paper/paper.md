@@ -1,10 +1,10 @@
 # Investment Cost Estimation Tool for Overnight Charging Infrastructure of Heavy-Duty Vehicles in Europe
 
-**Davide Ferraro, Jagruti Thakur\***
+**Davide Ferraro, Jagruti Thakur**
 
 *KTH Royal Institute of Technology, Stockholm, 11428, Sweden*
 
-\* Corresponding author. *E-mail address:* jrthakur@kth.se (Jagruti Thakur).
+ Corresponding author. *E-mail address:* [jrthakur@kth.se](mailto:jrthakur@kth.se) (Jagruti Thakur).
 
 ---
 
@@ -15,22 +15,24 @@ Heavy-duty vehicles · Depot charging · Investment cost modeling · Charging in
 
 ## Abstract
 
-The deployment of ==overnight== charging infrastructure for battery-electric heavy-duty vehicles (HDVs) is critical for decarbonizing European freight transport, yet decision-makers lack transparent, component-level cost estimation tools. This paper introduces an open-source, web-based investment cost calculator for overnight depot and public parking charging stations. The tool takes site-specific electrical parameters as input (number and power of chargers, grid connection type, voltage levels, cable distances, and site conditions) and automatically determines the project type (one of four categories based on grid connection requirements). It then sizes every electrical component from the grid connection point to the charging plug and computes itemized costs using real-world pricing data. The tool supports three analysis modes: cost breakdown, single-variable sensitivity, and two-parameter sensitivity analysis, enabling users to explore how different design choices affect total investment cost. Applied to nine case studies across Germany, Italy, and the United Kingdom, the tool produces investment costs ranging from €20,000 to €80,000 per charging plug, depending on grid connection type, charger power level, and deployment scale.
+The deployment of overnight charging infrastructure for battery-electric heavy-duty vehicles (HDVs) is critical for decarbonizing European freight transport, yet decision-makers lack transparent, component-level cost estimation tools. This paper introduces an open-source, web-based investment cost calculator for overnight depot and public parking charging stations. The tool takes site-specific electrical parameters as input (number and power of chargers, grid connection type, voltage levels, cable distances, and site conditions) and automatically determines the project type (one of four categories based on grid connection requirements). It then sizes every electrical component from the grid connection point to the charging plug and computes itemized costs using real-world pricing data. The tool supports three analysis modes: cost breakdown, single-variable sensitivity, and two-parameter sensitivity analysis, enabling users to explore how different design choices affect total investment cost. Applied to nine case studies across Germany, Italy, and the United Kingdom, the tool produces investment costs ranging from €20,000 to €80,000 per charging plug, depending on grid connection type, charger power level, and deployment scale.
 
 ---
 
 ## Code Metadata
 
-| Field | Value |
-|---|---|
-| Current code version | v1.0.0 |
-| Permanent link to code/repository used for this code version | https://github.com/davide-ferraro/ev-charging-cost-estimator |
-| Legal Code License | MIT |
-| Code versioning system used | git |
-| Software code languages, tools, and services used | Python, Streamlit, Plotly, Pandas, NumPy, OpenPyXL |
-| Compilation requirements, operating environments & dependencies | Python ≥ 3.10 |
-| If available, link to developer documentation/manual | https://kth.diva-portal.org/smash/record.jsf?pid=diva2%3A2007635 |
-| Support email for questions | davideferraro275@gmail.com |
+
+| Field                                                           | Value                                                                                                                                |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Current code version                                            | v1.0.0                                                                                                                               |
+| Permanent link to code/repository used for this code version    | [https://github.com/davide-ferraro/ev-charging-cost-estimator](https://github.com/davide-ferraro/ev-charging-cost-estimator)         |
+| Legal Code License                                              | MIT                                                                                                                                  |
+| Code versioning system used                                     | git                                                                                                                                  |
+| Software code languages, tools, and services used               | Python, Streamlit, Plotly, Pandas, NumPy, OpenPyXL                                                                                   |
+| Compilation requirements, operating environments & dependencies | Python ≥ 3.10                                                                                                                        |
+| If available, link to developer documentation/manual            | [https://kth.diva-portal.org/smash/record.jsf?pid=diva2%3A2007635](https://kth.diva-portal.org/smash/record.jsf?pid=diva2%3A2007635) |
+| Support email for questions                                     | [davideferraro275@gmail.com](mailto:davideferraro275@gmail.com)                                                                      |
+
 
 ---
 
@@ -40,17 +42,14 @@ Battery-electric trucks are entering the European market at a pace that the char
 
 The problem is on the infrastructure side. A single long-haul truck battery can hold 300–800 kWh, and a depot charging multiple trucks at once may need several megawatts of grid capacity [3,4,6]. The Alternative Fuels Infrastructure Regulation (AFIR) requires EU Member States to install at least 3.6 MW of truck charging capacity every 60 km along the core road network by 2030 [7]. Europe had roughly 10,000 public truck charging points in 2023; that number needs to reach 300,000 by the end of the decade, at an estimated cost of €7 billion [8]. Most existing depots cannot supply this kind of power, and getting a grid connection upgraded is slow, expensive, and tangled in permitting, sometimes taking years [9].
 
-==Cost estimation makes this harder.== Charging infrastructure for ==passenger cars== is well studied, but trucks need bigger chargers, heavier electrical equipment, and site-specific civil works. Fleet managers and investors rarely have clear numbers for how costs change across different configurations [10]. For instance, how much more a depot serving fifty trucks costs compared to one serving five, or what the price difference is between a site that already has a medium-voltage (MV) connection and one that needs a new one built from scratch. Borlaug et al. [10] found that smaller U.S. depots can often avoid costly grid upgrades, but larger sites typically need high-power connections and new substations. The ICCT notes that transformer sizing, permitting rules, and site characteristics create wide cost variation even within a single country [6]. Burton et al. [11] showed that utilities can cut grid-related costs by sizing components around actual truck usage patterns rather than peak demand. Still, the literature mostly reports cost in broad categories ("equipment," "labor," "grid fees") without breaking it down to individual components like cable cross-sections or switchgear ratings [4,8]. Most studies also focus on North America [10,12], where electricity pricing, grid regulations, and equipment standards differ from Europe. Lead time and permitting data is scarce as well [9,13].
+These infrastructure challenges are compounded by a lack of reliable cost estimation tools. Charging infrastructure for trucks requires high-power chargers, heavy electrical equipment, and site-specific civil works. Fleet managers and investors rarely have clear numbers for how costs change across different configurations [10]. For instance, how much more a depot serving fifty trucks costs compared to one serving five, or what the price difference is between a site that already has a medium-voltage (MV) connection and one that needs a new one built from scratch. Borlaug et al. [10] found that smaller U.S. depots can often avoid costly grid upgrades, but larger sites typically need high-power connections and new substations. The ICCT notes that transformer sizing, permitting rules, and site characteristics create wide cost variation even within a single country [6]. Burton et al. [11] showed that utilities can cut grid-related costs by sizing components around actual truck usage patterns rather than peak demand. Still, the literature mostly reports cost in broad categories ("equipment," "labor," "grid fees") without breaking it down to individual components like cable cross-sections or switchgear ratings [4,8]. Most studies also focus on North America [10,12], where electricity pricing, grid regulations, and equipment standards differ from Europe. Lead time and permitting data is scarce as well [9,13].
 
-> **[REVIEW]** On *"Cost estimation makes this harder"*: What is this? what its harder?
->
-> **[REVIEW]** On *"passenger cars"*: Are there softwares for passenger cars?
 
-==No open-source tool currently lets a user enter site-specific parameters and get a component-level investment cost breakdown for an HDV charging station. FleetRL [14], published in SoftwareX, is a reinforcement learning environment for fleet charging optimization. It decides when and how much to charge but does not model the physical infrastructure or its cost. ICCT reports [6] give aggregate estimates in static PDFs, not interactive calculators. Borlaug et al. [10] defined the levelized cost of charging (LCOC) framework for the U.S. but did not publish a reusable tool. Nothing covers the full cost chain from the MV grid connection point to the DC charging plug for European HDV overnight charging.==
+Several software tools and models address parts of the EV charging cost problem, but they fall into three groups that each leave the target case uncovered. The first group computes the levelized cost of charging (LCOC), a per-kilowatt-hour operating metric rather than an upfront capital cost. Borlaug et al. [10] built the reference LCOC framework for the United States and released it as the open-source lcoc-ldevs tool, but it targets light-duty vehicles and folds equipment and installation into an amortized input rather than producing a component breakdown. Lanz et al. [23] applied a similar LCOC approach across 30 European countries, yet their model covers passenger transport only and deliberately leaves grid connection costs out. The Atlas Public Policy charging cost calculator [24] works the same way, estimating the electricity cost of a given charging pattern rather than the hardware and connection investment. The second group is the set of planning and simulation tools in the U.S. Department of Energy EVI-X suite [22]. These project charging demand, simulate site energy use, or run financial scenarios, and they are explicit that capital cost estimation is not their job: the financial tool EVI-FAST asks the user to supply equipment and installation costs from vendor quotes rather than deriving them. Open-source interactive tools in the same family take aim at charging operation or grid impacts rather than capital cost: datafev [28] is a Python framework for charging management and scheduling algorithms, and EV-EcoSim [29] is a grid-aware co-simulation and optimization platform that does quantify cost, but as the levelized cost of grid and distributed-energy-resource components in a United States, light-duty context rather than a component-level capital breakdown of the station from the grid connection to the plug. The third group is the static, component-level cost literature. The AFDC report on non-residential charging equipment [12] and the ICCT metropolitan-area analysis [25] both split installation cost into hardware, labor, permitting, and grid connection, but they are published as fixed tables and figures rather than interactive software, and both describe U.S. passenger charging with data that is now roughly a decade old.
 
-> **[REVIEW]** I think this literature review of softwares is short, and FleetRL is not even so related. What Types of softwares exist and which gap this software fills? For sure reviewers will ask for a more indeep review.
+Work specific to heavy-duty depot charging is more recent and still leaves the niche open. Borlaug et al. [26] examined how depot charging stresses the electricity distribution system and released a load-profile generator, but their focus is grid upgrade cost and load shapes rather than a station-level investment breakdown. Wang et al. [27] come closest in intent, building a component-level bottom-up cost model for medium- and heavy-duty depot charging in California, yet they publish it as a methodology and dataset rather than a reusable interactive tool, and the costs are specific to the United States. FleetRL [14], the SoftwareX tool most often mentioned alongside this kind of work, is a reinforcement-learning environment for scheduling fleet charging and minimizing electricity cost; it models charging operation, not the physical infrastructure or its capital cost, so it complements rather than overlaps with the present tool. Across all of these, no open-source, interactive tool estimates component-level investment cost from the medium-voltage grid connection to the charging plug for European heavy-duty overnight charging, which is the gap this software fills.
 
-This paper fills that gap with the first open-source, web-based tool for estimating overnight charging infrastructure investment costs for battery-electric HDVs in Europe. The tool: (1) models 19 individual cost components from the grid connection to the plug; (2) automatically classifies projects into four types based on grid connection requirements; (3) uses real equipment pricing data in 2024 euros from catalogs, suppliers, and published studies; (4) supports cost breakdown, single-variable, and two-parameter sensitivity analyses; and (5) runs as a Streamlit web application that requires no installation and produces interactive charts and downloadable reports. It was developed at KTH Royal Institute of Technology with Scania AB, and validated through interviews with nine industry professionals across Europe.
+This paper fills that gap with the first open-source, web-based tool for estimating overnight charging infrastructure investment costs for battery-electric HDVs in Europe. The tool models 19 individual cost components from the grid connection to the plug, using real equipment pricing data in 2024 euros from catalogs, suppliers, and published studies. It automatically classifies projects into four types based on grid connection requirements: Type 1 where the existing connection already has sufficient capacity, Type 2 where a small LV upgrade covers the gap, Type 3 where a new MV connection is needed alongside an existing on-site transformer, and Type 4 where a full MV buildout is required from scratch. The type determines which cost components are activated. The tool supports cost breakdown, single-variable, and two-parameter sensitivity analyses, and runs as a Streamlit web application that requires no installation and produces interactive charts and downloadable reports. It was developed at KTH Royal Institute of Technology with Scania AB, and validated through interviews with nine industry professionals across Europe.
 
 ---
 
@@ -60,64 +59,83 @@ The tool is a Python web application built on Streamlit. Users configure a charg
 
 ### 2.1 Software Architecture
 
-> **[REVIEW]** I think the whole Software Architecture section looks like a description of the code organization than an actual software architecture section. Right now it mainly lists the files (app.py, calls.py, cost.py) and explains what each one does, but it does not really describe the architecture of the system itself.
->
-> The figure helps to show the overall workflow, but it still feels quite high level/generic. Maybe the section could focus more explicitly on the software layers/components and how they interact. For example, describing the Streamlit front end as the presentation layer, calls.py as the orchestration/logic layer, and cost.py as the computational layer containing the engineering/cost models.
->
-> It would also help to explain the data flow more clearly. Right now that flow is implied but not really discussed in detail.
+The tool follows a three-layer architecture. The **presentation layer** (`app.py`, ~995 lines) collects the 16 user inputs through a Streamlit widget form, re-renders the interface on every change to enable or disable fields that depend on the current configuration, and displays results as interactive Plotly charts with Excel and PDF export. The **orchestration layer** (`utils/calls.py`, ~325 lines) validates inputs, runs `medium_requirement()` and `hard_requirement()` to check whether the existing grid connection can handle the planned load, calls `case_definition()` to assign one of four project types, and calls `compute_all_costs()` which dispatches to every relevant cost function. The **computational layer** (`utils/cost.py`, ~490 lines) contains 19 pure functions, each of which takes one or more physical quantities and returns a cost in 2024 euros using lookup tables or fitted curves from industrial catalogs and published studies.
 
-The code is split into three files totaling about 1,800 lines (Figure 1):
+Data flows through four stages, shown in Figure 1. The user's 16 input parameters feed the project type classifier and the electrical sizing calculations in parallel. The project type (1–4) gates which sizing calculations are active and which cost functions return non-zero values. The sized electrical quantities (current I [A], apparent power S [kVA], total power P [kW], and voltage V [kV]) feed 15 cost functions. Each cost function produces one line item in euros. Because Streamlit re-executes the script on every widget change, the project type classification and the field-enable logic run automatically on every interaction without any explicit callback wiring. The electrical sizing and cost calculations, by contrast, are triggered only when the user clicks the Run Analysis button.
 
-- **`app.py`** (~995 lines): the Streamlit front end. Collects inputs, validates them, shows results as Plotly charts, and handles Excel/PDF export.
-- **`utils/calls.py`** (~325 lines): the orchestration layer. Checks whether LV or MV upgrades are needed (`medium_requirement`, `hard_requirement`), picks the project type (`case_definition`), runs all 19 cost functions (`compute_all_costs`), and drives the sensitivity sweeps.
-- **`utils/cost.py`** (~490 lines): the 19 cost functions themselves. Each takes a physical quantity (apparent power, current, cable length, or area) and returns a cost in 2024 euros, using lookup tables and fitted curves from industrial catalogs and published data.
+![Figure 1](figures/pipeline_abstract.png)
 
-In practice: the user fills in the input form; `calls.py` validates the inputs, determines the project type (1–4), and calls each relevant cost function with the right sizes; the results land in an itemized table and interactive charts.
-
-![Figure 1: Software architecture overview.](figures/Figure%201.png)
-
-*Figure 1: Software architecture overview.*
+*Figure 1: Data pipeline overview, with the three architectural layers shown as bands. The presentation layer (app.py) holds the user inputs, the orchestration layer (calls.py) performs the project type classification, and the computational layer (cost.py) contains the electrical sizing calculations and the cost functions. User inputs feed the project type classifier and the sizing calculations in parallel; the project type (1–4) gates which sizing calculations and cost functions are active; and the sized electrical quantities (I, S, P, V) feed 15 cost functions, each producing one line item in euros.*
 
 ### 2.2 Software Functionalities
 
-**Input parameters.** The user provides 13 numbers and 3 categorical choices: how many chargers, at what power, what voltage levels, the existing grid connection capacity, cable distances, the power factor, and site preparation details (land area, surface material, terrain). The form also asks about LV and MV connection specifics: transformer capacity, distances to the nearest transformer and MV access point, and safety margins. Fields that do not apply to the current configuration are grayed out automatically; for example, MV parameters only appear when the planned load exceeds what the existing connection can supply (Figure 2).
+**Input parameters.** The tool takes 13 numerical and 3 categorical inputs. The charger parameters, namely the number of chargers *n*, power per charger *P* [kW], and load power factor *pf*, drive the planned apparent load calculation and appear in nearly every cost function. The grid and connection parameters cover the existing grid connection capacity *G* [kVA], LV and MV voltage levels, available transformer capacity, maximum LV connection power, whether a transformer is already present on site, and the transformer safety margin; together these determine the project type and size the MV and LV electrical equipment. The distance and site parameters capture cable runs from the rectifier to the chargers, from the premises to the nearest MV/LV transformer, and to the nearest MV access point, as well as the land area, pavement material, and terrain type that determine cable costs and site preparation cost.
 
-> **[REVIEW]** In this section needs to introduce the main functions of the software and formulas. What is written is configuration, that can be place in other section.
->
-> **[REVIEW]** Also, is not clear what are the things that can be choosen, where they fit in the software work flow.
+The planned apparent load is computed as S = n·P/pf [kVA] and compared against the existing grid connection capacity G. If S is at most G the existing connection is sufficient and the project is classified as Type 1. Otherwise, the uncovered load S − G is compared against the local LV connection threshold: if it fits within LV limits a simple LV upgrade suffices (Type 2), and if it exceeds them a new MV connection is needed (Types 3 and 4). Once the type is known, only the relevant cost components are activated, and fields that do not apply are grayed out in the interface automatically (Figure 2).
 
-![Figure 2: Screenshot of the tool's web interface showing the input parameter form.](figures/Figure%203.png)
+Figure 2: Screenshot of the tool's web interface showing the input parameter form.
 
 *Figure 2: Screenshot of the tool's web interface showing the input parameter form.*
 
 **Project type classification.** The tool compares the total planned load (chargers × power / power factor) against the existing grid capacity and assigns one of four project types. **Type 1:** the connection already has enough capacity, so only the chargers need to be installed. **Type 2:** a small LV upgrade or new LV connection covers the gap. **Type 3:** a transformer exists on site but cannot handle the load, so a new MV connection is needed alongside it. **Type 4:** the site has only a basic LV connection and needs a full MV buildout from scratch. The type determines which cost components are included and which are zeroed out. Figure 3 shows the decision logic.
 
-![Figure 3: Flowchart for automatic project type classification.](figures/Figure%202.png)
+Figure 3: Flowchart for automatic project type classification.
 
 *Figure 3: Flowchart for automatic project type classification.*
 
-**Investment cost model.** The model covers everything from the grid connection point to the charging plug (Figure 4) and computes 15 cost items through 19 functions in three groups. **MV/substation equipment:** MVAC cables (exponential fit to current and length), transformer (power-law scaling from apparent power [15]), MV switchgear (score-based on voltage, current, and configuration), surge arresters and grounding resistors (lookup by voltage [16]). **LV equipment:** LVAC cables (linear, Type 2 only), LV switchboard (linear on current), rectifier (222 €/kW in 200 kW modules; absent below 40 kW), LVDC cables (linear on current, distance, and charger count), chargers or DC dispensers (interpolated lookup, 10–350 kW [4]). **Labor and site work:** planning and installation (linear on charger count and power [4,6]), MV and LV cable installation (from expert interview data and cable cost [17]), site preparation (€/m² by material and terrain). Any component that does not apply to the selected project type returns zero.
+**Investment cost model.** The model covers everything from the grid connection point to the charging plug (Figure 4) and computes 15 cost items through 19 functions in three groups. Figure 7 shows three representative examples of how inputs flow through the pipeline to produce a cost in euros, ranging from a simple passthrough (Chargers) to a linear sizing calculation (Transformer) to a chained function (MV Connection Cost, which takes the MV cable material cost as its own input).
 
-![Figure 4: General layout of a high-power charging station with centralized conversion.](figures/Figure%204.png)
+The key intermediate calculations that size electrical components are:
+
+| Quantity | Formula |
+|---|---|
+| Planned apparent load | S = n · P / pf [kVA] |
+| LV current | I = n · P · 1000 / (√3 · V_LV) [A] |
+| MV current (Type 3) | I = (n · P/pf − G) / (√3 · V_MV) [A] |
+| MV current (Type 4) | I = (n · P/pf) / (√3 · V_MV) [A] |
+| Transformer rating | S_T = (n · P/pf − G) · (1 + margin/100) [kVA] |
+| Rectifier modules | k = ⌈n · P / 200⌉ |
+
+The cost functions that map these quantities to euros are:
+
+| Component | Formula type | Key formula |
+|---|---|---|
+| LV/DC cables | Linear | C = 0.276 · I · dist [€] |
+| MV cables | Exponential | C = 53.976 · e^(0.0034 · I) · dist [€] |
+| LV cabinet | Linear | C = 10.319 · I − 900.26 [€] |
+| Rectifier | Step | C = k · 44,400 [€] |
+| Transformer | Lookup table | S_T [kVA] → catalog price [€] |
+| MV switchgear | Weighted linear | C = base + Σ w_i · x_i [€] |
+| Surge arresters | Lookup table | V_MV [kV] → catalog price [€] |
+| Charger planning | Linear | C = n · (25.064 · P + 275.07) [€] |
+| Charger installation | Linear | C = n · (155.83 · P + 5822.5) [€] |
+| Site preparation | Lookup table | C = A · r, r ∈ {45.2, 55.2, 150.6} [€/m²] |
+
+On the MV and substation side, the model prices MVAC cables through an exponential fit to current and length, sizes the transformer through power-law scaling from apparent power [15], rates the MV switchgear through a weighted score on voltage, current, and configuration, and prices surge arresters and grounding resistors from a voltage-indexed lookup table [16]. The LV equipment group covers LVAC distribution cables applicable to Type 2 only and priced linearly on current, the LV switchboard also priced linearly on current, the rectifier at 222 €/kW in 200 kW modules and absent for charger power below 40 kW, LVDC cables from the rectifier to the chargers, and the chargers or DC dispensers themselves priced through an interpolated lookup over the 10 to 350 kW range [4]. Labor and site work are captured through linear regressions for charger planning and installation costs based on charger count and power [4,6], cable installation costs derived from expert interview data and cable material cost [17], and site preparation at a fixed rate per square metre depending on pavement material and terrain type. Any component that does not apply to the selected project type returns zero.
+
+Figure 4: General layout of a high-power charging station with centralized conversion.
 
 *Figure 4: General layout of a high-power charging station with centralized conversion.*
 
-**Analysis modes.** Three modes are available. **Cost Breakdown** produces a full itemized table for the exact configuration, exportable to Excel. **Single-Variable Sensitivity** lets the user sweep one or more parameters across a range while holding everything else fixed; the result is a stacked bar chart showing how each component changes. **Two-Parameter Sensitivity** sweeps two parameters at once, displayed as a scatter plot color-coded by the second parameter, with full component breakdowns on hover.
+**Analysis modes.** Three modes are available. **Cost Breakdown** produces a full itemized table for the exact configuration, exportable to Excel. **Single-Variable Sensitivity** sweeps one parameter across a user-defined range while holding everything else fixed. Because the swept parameter passes through the full pipeline on every step, increasing the number of chargers, for example, can shift the project type mid-sweep from Type 1 to Type 3 once the planned load exceeds the grid connection capacity, which in turn activates a different set of cost components; the resulting stacked bar chart makes these discontinuities visible. **Two-Parameter Sensitivity** sweeps two parameters at once and displays the results as a scatter plot color-coded by the second parameter, with full component breakdowns on hover. In both sensitivity modes, every evaluation re-runs the complete pipeline covering project type classification, electrical sizing, and cost computation, so the output reflects the true non-linear response of the cost model to input variation.
 
 **Export and deployment.** Every analysis can be exported to Excel. The tool also generates a PDF report with all inputs, tables, and charts included. It runs locally with `streamlit run app.py` or on a cloud host like Streamlit Community Cloud. No installation is needed beyond Python 3.10 and the packages in `requirements.txt`.
+
+![Figure 7](figures/Figure_composite_pipeline.png)
+
+*Figure 7: Three representative cost item pipelines. (a) Chargers: inputs n and P pass directly through a lookup table. (b) Transformer: six inputs drive a linear sizing calculation producing S [kVA], which indexes a catalog lookup table. (c) MV Connection Cost: a chained function that takes the MV cable material cost as input rather than raw electrical quantities.*
 
 ---
 
 ## 3 Illustrative Examples
 
-==We applied the tool== to nine real sites across Germany, Italy, and the United Kingdom, chosen to cover all four project types at different scales. Site selection started from a spatial analysis that cross-referenced truck stop locations [18] with nearby high-power chargers from Open Charge Map [19], specifically CCS stations of at least 100 kW within 200 meters of a truck stop. The logic: if high-power chargers already exist nearby, there is likely MV grid capacity in the area. Table 1 lists the nine cases.
-
-> **[REVIEW]** The text should not include words like We. In this section, the tool is test using..
+The tool is applied to nine real sites across Germany, Italy, and the United Kingdom, chosen to cover all four project types at different scales. Site selection started from a spatial analysis that cross-referenced truck stop locations [18] with nearby high-power chargers from Open Charge Map [19], specifically CCS stations of at least 100 kW within 200 meters of a truck stop. The logic: if high-power chargers already exist nearby, there is likely MV grid capacity in the area. Table 1 lists the nine cases.
 
 *Table 1: Overview of the nine case studies.*
 
+
 | Case | Type | Country | Chargers | Power [kW] | Grid [kVA] | Transformer |
-|------|------|---------|----------|------------|------------|-------------|
+| ---- | ---- | ------- | -------- | ---------- | ---------- | ----------- |
 | 1IT  | 1    | Italy   | 3        | 200        | 650        | Yes         |
 | 3IT  | 3    | Italy   | 20       | 160        | 1800       | Yes         |
 | 4IT  | 4    | Italy   | 10       | 200        | 200        | No          |
@@ -128,45 +146,39 @@ In practice: the user fills in the input form; `calls.py` validates the inputs, 
 | 3UK  | 3    | UK      | 30       | 160        | 2100       | Yes         |
 | 4UK  | 4    | UK      | 20       | 160        | 200        | No          |
 
-Results span a wide range: roughly €20,000 per plug for large Type 1 sites down to over €80,000 for small Type 4 projects (Figure 5). The pattern is consistent across countries. Specific cost (€/kW) drops as installed power grows. Economies of scale are real, but they hit a floor. For Type 1 projects, chargers, rectifiers, and installation labor make up most of the bill, and specific cost falls from above 1,500 €/kW at 10 kW to below 800 €/kW at 150 kW. Type 4 projects carry the extra burden of a full MV buildout (transformer, switchgear, MV cables, trenching), which does not scale as well; their specific cost drops to about 1,000–1,100 €/kW and then levels off (Figure 7). The gap between Type 1 and Type 4 at the same power level is roughly 60% MV equipment and 40% additional labor.
 
-![Figure 5: Investment cost per plug as a function of deployment scale, for 20 kW and 100 kW chargers.](figures/Figure%205.png)
+Results span a wide range: roughly €20,000 per plug for large Type 1 sites down to over €80,000 for small Type 4 projects (Figure 5). The pattern is consistent across countries. Specific cost (€/kW) drops as installed power grows. Economies of scale are real, but they hit a floor. For Type 1 projects, chargers, rectifiers, and installation labor make up most of the bill, and specific cost falls from above 1,500 €/kW at 10 kW to below 800 €/kW at 150 kW. Type 4 projects carry the extra burden of a full MV buildout (transformer, switchgear, MV cables, trenching), which does not scale as well; their specific cost drops to about 1,000–1,100 €/kW and then levels off. The gap between Type 1 and Type 4 at the same power level is roughly 60% MV equipment and 40% additional labor.
+
+Figure 5: Investment cost per plug as a function of deployment scale, for 20 kW and 100 kW chargers.
 
 *Figure 5: Investment cost per plug as a function of deployment scale, for 20 kW and 100 kW chargers.*
 
 Figure 6 breaks down each case by component. Case 3UK costs the most in absolute terms (30 chargers at 160 kW with a new MV connection), but its per-kW cost is among the lowest because the fixed MV costs are spread over 4.8 MW of capacity. Smaller projects like 2DE and 1IT stay under €500,000 total but pay more per kilowatt.
 
-![Figure 6: Investment cost and specific cost (€/kW) for the nine public parking case studies.](figures/Figure%206.png)
+Figure 6: Investment cost and specific cost (€/kW) for the nine public parking case studies.
 
 *Figure 6: Investment cost and specific cost (€/kW) for the nine public parking case studies.*
 
-![Figure 7: Investment cost comparison: Type 1 vs. Type 4 projects for 20 kW and 100 kW chargers as a function of total installed power.](figures/Figure%207.png)
-
-*Figure 7: Investment cost comparison: Type 1 vs. Type 4 projects for 20 kW and 100 kW chargers as a function of total installed power.*
 
 ---
 
 ## 4 Impact
 
-==AFIR requires over 300,000 truck charging points across Europe by 2030, at an estimated €7 billion [7,8]. That money will be spent site by site, and the range of per-plug costs (€20,000–€80,000) means design choices matter.==
+The tool provides decision-makers with a fast, transparent way to estimate and compare overnight HDV charging infrastructure costs before committing to a project. Fleet operators, infrastructure developers, and policymakers can use it to understand how site-specific design choices such as charger count and power, grid connection type, and cable distances drive total investment cost. AFIR requires over 300,000 truck charging points across Europe by 2030 at an estimated €7 billion [7,8], and the range of per-plug costs found here (€20,000–€80,000) shows that informed design choices can make a substantial difference in how that budget is spent.
 
-> **[REVIEW]** I think this is not a good first sentence on Impact. Should be a clear sentence of the impact of the Tool. Where can be used and the benefits.
+Fleet operators can use the tool before committing to a project to compare high-power against low-power chargers, check whether an LV upgrade is sufficient or an MV connection is unavoidable, and identify which parameters move the total cost most. Policymakers can draw on the same results to design subsidy schemes, set grid connection standards, or decide which TEN-T corridor locations to prioritize for public charging infrastructure.
 
-Fleet operators can use the tool before committing to a project: compare high-power versus low-power chargers, check whether an LV upgrade is enough or an MV connection is unavoidable, and see which parameters move the total cost most. Policymakers can use the same numbers to design subsidies, set grid connection policies, or decide which TEN-T corridor locations to prioritize.
-
-For researchers, the value is in the open, modular structure. Every cost function can be inspected, modified, or replaced. If MCS connector pricing data becomes available, or if a user wants to plug in local labor rates for a country not covered here, the lookup tables can be edited directly [20,21]. The tool was built with Scania AB and tested against input from nine industry professionals [17]. It pairs well with FleetRL [14], which handles the operational side (charging schedules and electricity costs). Together, the two tools cover both the capital and operational parts of the picture.
+For researchers, the value lies in the open, modular structure of the codebase. Every cost function can be inspected, modified, or replaced with local data, and if MCS connector pricing becomes available or a user wants to substitute labor rates for a specific country, the relevant lookup tables can be edited directly [20,21]. The tool was developed in collaboration with Scania AB and validated against input from nine industry professionals [17]. It complements FleetRL [14], which handles the operational side of fleet charging by optimizing charging schedules and minimizing electricity costs. Used together, the two tools cover both the capital investment and the ongoing operational costs of electric truck depot charging.
 
 ---
 
 ## 5 Conclusions
 
-This paper has introduced an open-source tool that estimates the investment cost of overnight HDV charging infrastructure in Europe, covering 19 cost components from the grid connection to the plug. ==It classifies projects into four types by grid connection requirement and supports cost breakdown, single-variable, and two-parameter sensitivity analysis through a web interface.==
-
-> **[REVIEW]** This was not clear before in the document
+This paper has introduced an open-source tool that estimates the investment cost of overnight HDV charging infrastructure in Europe, covering 19 cost components from the grid connection to the plug. It classifies projects into four types by grid connection requirement and supports cost breakdown, single-variable, and two-parameter sensitivity analysis through a web interface.
 
 Across nine case studies in Germany, Italy, and the UK, costs range from about €20,000 per plug (large Type 1 sites with existing grid capacity) to over €80,000 (small Type 4 sites needing a full MV buildout). Economies of scale are real but have a floor: MV equipment adds a fixed layer that does not shrink much with more chargers. For Type 1 projects, chargers and installation dominate; for Type 3 and 4, the transformer, switchgear, and MV cabling become the main differentiator.
 
-Next steps include adding electricity cost optimization and levelized cost of charging (LCOC) calculations, lead time estimation by project type, updated pricing for Megawatt Charging System (MCS) connectors as that standard matures, and scaling the methodology to regional deployment planning.
+Future work will extend the tool in several directions. The most significant addition would be electricity cost optimization and levelized cost of charging (LCOC) calculations, which would allow users to compare not just the capital investment but the full cost of ownership across configurations. Shorter-term extensions include lead time estimation by project type, updated pricing for Megawatt Charging System (MCS) connectors as that standard matures in the European market, and tools for scaling the methodology from individual sites to regional deployment planning.
 
 ---
 
@@ -184,50 +196,66 @@ The authors thank Antonius Kies (Scania AB) for industrial supervision and guida
 
 ## Data Availability
 
-The source code is available at https://github.com/davide-ferraro/ev-charging-cost-estimator. The full methodology and data sources are documented in the accompanying master's thesis report, available at https://kth.diva-portal.org/smash/record.jsf?pid=diva2%3A2007635.
+The source code is available at [https://github.com/davide-ferraro/ev-charging-cost-estimator](https://github.com/davide-ferraro/ev-charging-cost-estimator). The full methodology and data sources are documented in the accompanying master's thesis report, available at [https://kth.diva-portal.org/smash/record.jsf?pid=diva2%3A2007635](https://kth.diva-portal.org/smash/record.jsf?pid=diva2%3A2007635).
 
 ---
 
 ## Bibliography
 
-[1] European Commission, Heavy-duty vehicles, (2024). https://climate.ec.europa.eu/eu-action/transport-decarbonisation/road-transport/heavy-duty-vehicles_en.
+[1] European Commission, Heavy-duty vehicles, (2024). [https://climate.ec.europa.eu/eu-action/transport-decarbonisation/road-transport/heavy-duty-vehicles_en](https://climate.ec.europa.eu/eu-action/transport-decarbonisation/road-transport/heavy-duty-vehicles_en).
 
-[2] Climate Change Connection, Tailpipe Emissions, (n.d.). https://climatechangeconnection.org/emissions/tailpipe-emissions/.
+[2] Climate Change Connection, Tailpipe Emissions, (n.d.). [https://climatechangeconnection.org/emissions/tailpipe-emissions/](https://climatechangeconnection.org/emissions/tailpipe-emissions/).
 
-[3] International Energy Agency (IEA), Global EV Outlook 2023, (2023). https://www.iea.org/reports/global-ev-outlook-2023.
+[3] International Energy Agency (IEA), Global EV Outlook 2023, (2023). [https://www.iea.org/reports/global-ev-outlook-2023](https://www.iea.org/reports/global-ev-outlook-2023).
 
-[4] ACEA, ChargeUp Europe, Transport & Environment, A European EV Charging Infrastructure Masterplan, (2022). https://www.acea.auto/files/Research-Whitepaper-A-European-EV-Charging-Infrastructure-Masterplan.pdf.
+[4] ACEA, ChargeUp Europe, Transport & Environment, A European EV Charging Infrastructure Masterplan, (2022). [https://www.acea.auto/files/Research-Whitepaper-A-European-EV-Charging-Infrastructure-Masterplan.pdf](https://www.acea.auto/files/Research-Whitepaper-A-European-EV-Charging-Infrastructure-Masterplan.pdf).
 
-[5] McKinsey & Company, Why most eTrucks will choose overnight charging, (2022). https://www.mckinsey.com/industries/automotive-and-assembly/our-insights/why-most-etrucks-will-choose-overnight-charging.
+[5] McKinsey & Company, Why most eTrucks will choose overnight charging, (2022). [https://www.mckinsey.com/industries/automotive-and-assembly/our-insights/why-most-etrucks-will-choose-overnight-charging](https://www.mckinsey.com/industries/automotive-and-assembly/our-insights/why-most-etrucks-will-choose-overnight-charging).
 
-[6] International Council on Clean Transportation, Estimating Charging Infrastructure Costs for Electric Trucks, (2022). https://theicct.org/wp-content/uploads/2022/12/charging-infrastructure-trucks-zeva-dec22.pdf.
+[6] International Council on Clean Transportation, Estimating Charging Infrastructure Costs for Electric Trucks, (2022). [https://theicct.org/wp-content/uploads/2022/12/charging-infrastructure-trucks-zeva-dec22.pdf](https://theicct.org/wp-content/uploads/2022/12/charging-infrastructure-trucks-zeva-dec22.pdf).
 
-[7] Official Journal of the European Union, Regulation (EU) 2023/1804 of the European Parliament and of the Council of 13 September 2023 on the deployment of alternative fuels infrastructure, and repealing Directive 2014/94/EU, (2023). https://eur-lex.europa.eu/eli/reg/2023/1804/oj/eng.
+[7] Official Journal of the European Union, Regulation (EU) 2023/1804 of the European Parliament and of the Council of 13 September 2023 on the deployment of alternative fuels infrastructure, and repealing Directive 2014/94/EU, (2023). [https://eur-lex.europa.eu/eli/reg/2023/1804/oj/eng](https://eur-lex.europa.eu/eli/reg/2023/1804/oj/eng).
 
-[8] B. Broer, A. Tschiesner, M. Stuchtey, N. Müller, W.G. Aulbur, Building Europe's Electric-Truck Charging Infrastructure, (2023). https://www.mckinsey.com/industries/automotive-and-assembly/our-insights/building-europes-electric-truck-charging-infrastructure.
+[8] B. Broer, A. Tschiesner, M. Stuchtey, N. Müller, W.G. Aulbur, Building Europe's Electric-Truck Charging Infrastructure, (2023). [https://www.mckinsey.com/industries/automotive-and-assembly/our-insights/building-europes-electric-truck-charging-infrastructure](https://www.mckinsey.com/industries/automotive-and-assembly/our-insights/building-europes-electric-truck-charging-infrastructure).
 
-[9] UK Department for Transport, Improving the Grid Connection Process for Electric Vehicle Charging Infrastructure, (2024). https://www.gov.uk/government/publications/improving-the-grid-connection-process-for-electric-vehicle-charging-infrastructure/improving-the-grid-connection-process-for-electric-vehicle-charging-infrastructure.
+[9] UK Department for Transport, Improving the Grid Connection Process for Electric Vehicle Charging Infrastructure, (2024). [https://www.gov.uk/government/publications/improving-the-grid-connection-process-for-electric-vehicle-charging-infrastructure/improving-the-grid-connection-process-for-electric-vehicle-charging-infrastructure](https://www.gov.uk/government/publications/improving-the-grid-connection-process-for-electric-vehicle-charging-infrastructure/improving-the-grid-connection-process-for-electric-vehicle-charging-infrastructure).
 
-[10] B. Borlaug, S. Salisbury, M. Gerdes, M. Muratori, Levelized Cost of Charging Electric Vehicles in the United States, Joule 4 (2020) 1470–1485. https://www.sciencedirect.com/science/article/pii/S2542435120302312.
+[10] B. Borlaug, S. Salisbury, M. Gerdes, M. Muratori, Levelized Cost of Charging Electric Vehicles in the United States, Joule 4 (2020) 1470–1485. [https://www.sciencedirect.com/science/article/pii/S2542435120302312](https://www.sciencedirect.com/science/article/pii/S2542435120302312).
 
-[11] E. Burton, M. Melaina, B. Bush, M. Muratori, J. Gonder, Evaluating Utility Cost Savings for Electric Vehicle Charging Infrastructure, National Renewable Energy Laboratory (NREL) Report (2020) 1–52. https://docs.nrel.gov/docs/fy20osti/75269.pdf.
+[11] E. Burton, M. Melaina, B. Bush, M. Muratori, J. Gonder, Evaluating Utility Cost Savings for Electric Vehicle Charging Infrastructure, National Renewable Energy Laboratory (NREL) Report (2020) 1–52. [https://docs.nrel.gov/docs/fy20osti/75269.pdf](https://docs.nrel.gov/docs/fy20osti/75269.pdf).
 
-[12] A.F.D.C. U.S. Department of Energy, Costs Associated With Non-Residential Electric Vehicle Supply Equipment, (2015). https://afdc.energy.gov/files/u/publication/evse_cost_report_2015.pdf.
+[12] A.F.D.C. U.S. Department of Energy, Costs Associated With Non-Residential Electric Vehicle Supply Equipment, (2015). [https://afdc.energy.gov/files/u/publication/evse_cost_report_2015.pdf](https://afdc.energy.gov/files/u/publication/evse_cost_report_2015.pdf).
 
-[13] Transport & Environment, Oeko-Institut, Fraunhofer ISI, Truck Depot Charging – Final Report, (2022). https://www.transportenvironment.org/uploads/files/TE_truck-depot-charging_final-report.pdf.
+[13] Transport & Environment, Oeko-Institut, Fraunhofer ISI, Truck Depot Charging – Final Report, (2022). [https://www.transportenvironment.org/uploads/files/TE_truck-depot-charging_final-report.pdf](https://www.transportenvironment.org/uploads/files/TE_truck-depot-charging_final-report.pdf).
 
-[14] E. Cording, J. Thakur, FleetRL: Realistic reinforcement learning environments for commercial vehicle fleets, Softwarex 26 (2024) 101671–101671. https://www.sciencedirect.com/science/article/pii/S2352711024000426.
+[14] E. Cording, J. Thakur, FleetRL: Realistic reinforcement learning environments for commercial vehicle fleets, Softwarex 26 (2024) 101671–101671. [https://www.sciencedirect.com/science/article/pii/S2352711024000426](https://www.sciencedirect.com/science/article/pii/S2352711024000426).
 
-[15] E. Csanyi, What is the price of a power transformer?, (2022). https://electrical-engineering-portal.com/price-of-a-transformer.
+[15] E. Csanyi, What is the price of a power transformer?, (2022). [https://electrical-engineering-portal.com/price-of-a-transformer](https://electrical-engineering-portal.com/price-of-a-transformer).
 
-[16] IEEE, IEEE Recommended Practice for Grounding of Industrial and Commercial Power Systems (IEEE Std 142-2007), (2007). https://hibp.ecse.rpi.edu/~connor/education/Fields/IEEEStd142_2007.pdf.
+[16] IEEE, IEEE Recommended Practice for Grounding of Industrial and Commercial Power Systems (IEEE Std 142-2007), (2007). [https://hibp.ecse.rpi.edu/~connor/education/Fields/IEEEStd142_2007.pdf](https://hibp.ecse.rpi.edu/~connor/education/Fields/IEEEStd142_2007.pdf).
 
 [17] S.o. Expert Interviews, Charging Infrastructure for Battery Electric Trucks: Synthesis of Expert Interviews, (2024).
 
-[18] P. Plötz, D. Speth, Truck Stop Locations in Europe: Final Report, (2021). https://publica.fraunhofer.de/entities/publication/e9695859-88a6-4c5f-9da0-64814a2383bf.
+[18] P. Plötz, D. Speth, Truck Stop Locations in Europe: Final Report, (2021). [https://publica.fraunhofer.de/entities/publication/e9695859-88a6-4c5f-9da0-64814a2383bf](https://publica.fraunhofer.de/entities/publication/e9695859-88a6-4c5f-9da0-64814a2383bf).
 
-[19] Open Charge Map project, Open Charge Map: Open Source Electric Vehicle Charging Stations, (n.d.). https://openchargemap.org/site.
+[19] Open Charge Map project, Open Charge Map: Open Source Electric Vehicle Charging Stations, (n.d.). [https://openchargemap.org/site](https://openchargemap.org/site).
 
-[20] CharIN e.V., Megawatt Charging System (MCS), (2024). https://www.charin.global/technology/mcs/.
+[20] CharIN e.V., Megawatt Charging System (MCS), (2024). [https://www.charin.global/technology/mcs/](https://www.charin.global/technology/mcs/).
 
-[21] HoLa Innovation Cluster, Megawatt Charging Networks (HoLa project), (2021). https://hochleistungsladen-lkw.de/hola-en/results/megawatt_charging_networks.php.
+[21] HoLa Innovation Cluster, Megawatt Charging Networks (HoLa project), (2021). [https://hochleistungsladen-lkw.de/hola-en/results/megawatt_charging_networks.php](https://hochleistungsladen-lkw.de/hola-en/results/megawatt_charging_networks.php).
+
+[22] National Renewable Energy Laboratory, EVI-X Modeling Suite (EVI-Pro, EVI-FAST), NREL, (n.d.). [https://www.nrel.gov/transportation/evi-x](https://www.nrel.gov/transportation/evi-x).
+
+[23] L. Lanz, B. Noll, T.S. Schmidt, B. Steffen, Comparing the levelized cost of electric vehicle charging options in Europe, Nature Communications 13 (2022) 5277. [https://doi.org/10.1038/s41467-022-32835-7](https://doi.org/10.1038/s41467-022-32835-7).
+
+[24] Atlas Public Policy, EV Charging Cost Calculator, (n.d.). [https://atlaspolicy.com/ev-charging-cost-calculator/](https://atlaspolicy.com/ev-charging-cost-calculator/).
+
+[25] M. Nicholas, Estimating electric vehicle charging infrastructure costs across major U.S. metropolitan areas, ICCT Working Paper 2019-14, International Council on Clean Transportation (2019). [https://theicct.org/publication/estimating-electric-vehicle-charging-infrastructure-costs-across-major-u-s-metropolitan-areas/](https://theicct.org/publication/estimating-electric-vehicle-charging-infrastructure-costs-across-major-u-s-metropolitan-areas/).
+
+[26] B. Borlaug, M. Muratori, M. Gilleran, D. Woody, W. Muston, T. Canada, et al., Heavy-duty truck electrification and the impacts of depot charging on electricity distribution systems, Nature Energy 6 (2021) 673–682. [https://doi.org/10.1038/s41560-021-00855-0](https://doi.org/10.1038/s41560-021-00855-0).
+
+[27] G. Wang, M. Miller, L. Fulton, The infrastructure cost for depot charging of battery electric trucks, The Electricity Journal (2025). [https://www.sciencedirect.com/science/article/abs/pii/S1040619025000351](https://www.sciencedirect.com/science/article/abs/pii/S1040619025000351).
+
+[28] E. Gümrükcü, A. Ahmadifar, A. Yavuzer, F. Ponci, A. Monti, datafev: A Python framework for development and testing of management algorithms for electric vehicle charging infrastructures, Software Impacts 15 (2023) 100467. [https://www.sciencedirect.com/science/article/pii/S2665963823000040](https://www.sciencedirect.com/science/article/pii/S2665963823000040).
+
+[29] E. Balogun, E. Buechler, S. Bhela, S. Onori, R. Rajagopal, EV-EcoSim: A grid-aware co-simulation platform for the design and optimization of electric vehicle charging infrastructure, IEEE Transactions on Smart Grid (2024). [https://doi.org/10.1109/TSG.2023.3339374](https://doi.org/10.1109/TSG.2023.3339374).

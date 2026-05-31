@@ -1,0 +1,40 @@
+digraph item {
+    rankdir=LR
+    splines=true
+    nodesep=0.5
+    ranksep=1.8
+    node [shape=box, style=filled, fontname="Helvetica", fontsize=11, margin="0.12,0.08"]
+    edge [fontname="Helvetica", fontsize=10]
+
+    TITLE [shape=none, label="Planning", fontname="Helvetica Bold", fontsize=16, fontcolor="#263238"]
+
+    subgraph cluster_inputs {
+        label="User Inputs"
+        fontname="Helvetica Bold"
+        fontsize=13
+        fontcolor="#1565C0"
+        color="#1565C0"
+        style=rounded
+        bgcolor="#E3F2FD"
+    I1 [label="Number of chargers (n)", fillcolor="#BBDEFB", color="#1565C0"]
+    I2 [label="Power per charger (P) [kW]", fillcolor="#BBDEFB", color="#1565C0"]
+    }
+
+    subgraph cluster_cf {
+        label="Cost Functions"
+        fontname="Helvetica Bold"
+        fontsize=13
+        fontcolor="#4527A0"
+        color="#4527A0"
+        style=rounded
+        bgcolor="#EDE7F6"
+    CF11 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2"><TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR><TR><TD ALIGN="CENTER"><B>Planning Cost</B></TD></TR><TR><TD ALIGN="CENTER">n, P → €</TD></TR></TABLE>>, shape=box, fillcolor="#E8EAF6", color="#283593"]
+    }
+
+    EUR [label="€  Planning", shape=box, fillcolor="#E8F5E9", color="#2E7D32", fontname="Helvetica Bold", fontsize=11]
+
+
+    I1 -> CF11 [color="#546E7A", style=dashed]
+    I2 -> CF11 [color="#546E7A", style=dashed]
+    CF11 -> EUR [color="#2E7D32", penwidth=2]
+}

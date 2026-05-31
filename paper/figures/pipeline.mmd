@@ -1,0 +1,112 @@
+flowchart LR
+    classDef inputBox fill:#E3F2FD,stroke:#1565C0,color:#000
+    classDef sizingBox fill:#FFF8E1,stroke:#F57F17,color:#000
+    classDef endNode fill:#fff,stroke:#ccc,color:#ccc
+
+    subgraph INPUTS["USER INPUTS"]
+        direction TB
+        I1["Number of chargers (n)"]:::inputBox
+        I2["Power per charger (P) [kW]"]:::inputBox
+        I3["LV level (V_LV) [V]"]:::inputBox
+        I4["Grid connection capacity (G) [kVA]"]:::inputBox
+        I5["Distance rectifier → chargers [m]"]:::inputBox
+        I6["Load Power Factor (pf)"]:::inputBox
+        I9["Distance to MV/LV transformer [m]"]:::inputBox
+        I10["MV level (V_MV) [kV]"]:::inputBox
+        I11["Transformer safety margin [%]"]:::inputBox
+        I12["Distance to MV access point [m]"]:::inputBox
+    end
+
+    subgraph SIZING["ELECTRICAL SIZING"]
+        direction TB
+        S1["LV Cabinet"]:::sizingBox
+        S2["DC Cables\n(rectifier → chargers)"]:::sizingBox
+        S3["LV Distribution Cables"]:::sizingBox
+        S4["MV Cables"]:::sizingBox
+        S5["Transformer"]:::sizingBox
+        S6["MV Switchgear"]:::sizingBox
+        S7["Surge Arresters"]:::sizingBox
+        S8["Grounding Resistors"]:::sizingBox
+        S9["Rectifier"]:::sizingBox
+        S10["Chargers"]:::sizingBox
+    end
+
+    %% === INPUT → SIZING ARROWS ===
+    %% LV Cabinet (n, P, V_LV): links 0,1,2
+    I1 --> S1
+    I2 --> S1
+    I3 --> S1
+
+    %% DC Cables (n, P, V_LV, dist_dc): links 3,4,5,6
+    I1 --> S2
+    I2 --> S2
+    I3 --> S2
+    I5 --> S2
+
+    %% LV Distribution Cables (n, P, V_LV, G, pf, dist_lv): links 7,8,9,10,11,12
+    I1 --> S3
+    I2 --> S3
+    I3 --> S3
+    I4 --> S3
+    I6 --> S3
+    I9 --> S3
+
+    %% MV Cables (n, P, G, pf, V_MV, dist_mv): links 13,14,15,16,17,18
+    I1 --> S4
+    I2 --> S4
+    I4 --> S4
+    I6 --> S4
+    I10 --> S4
+    I12 --> S4
+
+    %% Transformer (n, P, G, pf, margin): links 19,20,21,22,23
+    I1 --> S5
+    I2 --> S5
+    I4 --> S5
+    I6 --> S5
+    I11 --> S5
+
+    %% MV Switchgear (n, P, G, pf, V_MV): links 24,25,26,27,28
+    I1 --> S6
+    I2 --> S6
+    I4 --> S6
+    I6 --> S6
+    I10 --> S6
+
+    %% Surge Arresters (V_MV): link 29
+    I10 --> S7
+
+    %% Grounding Resistors (V_MV): link 30
+    I10 --> S8
+
+    %% Rectifier (n, P): links 31,32
+    I1 --> S9
+    I2 --> S9
+
+    %% Chargers (n, P): links 33,34
+    I1 --> S10
+    I2 --> S10
+
+    %% === OUTPUT ARROWS (links 35-44) ===
+    S1  -->|"I [A]"| O1[ ]:::endNode
+    S2  -->|"I [A]"| O2[ ]:::endNode
+    S3  -->|"I [A]"| O3[ ]:::endNode
+    S4  -->|"I [A]"| O4[ ]:::endNode
+    S5  -->|"S [kVA]"| O5[ ]:::endNode
+    S6  -->|"I [A]"| O6[ ]:::endNode
+    S7  -->|"V [kV]"| O7[ ]:::endNode
+    S8  -->|"V [kV]"| O8[ ]:::endNode
+    S9  -->|"P [kW]"| O9[ ]:::endNode
+    S10 -->|"P [kW]"| O10[ ]:::endNode
+
+    %% Color output arrows: I=blue, S=orange, V=purple, P=green
+    linkStyle 35 stroke:#1565C0,stroke-width:3px
+    linkStyle 36 stroke:#1565C0,stroke-width:3px
+    linkStyle 37 stroke:#1565C0,stroke-width:3px
+    linkStyle 38 stroke:#1565C0,stroke-width:3px
+    linkStyle 39 stroke:#E65100,stroke-width:3px
+    linkStyle 40 stroke:#1565C0,stroke-width:3px
+    linkStyle 41 stroke:#6A1B9A,stroke-width:3px
+    linkStyle 42 stroke:#6A1B9A,stroke-width:3px
+    linkStyle 43 stroke:#2E7D32,stroke-width:3px
+    linkStyle 44 stroke:#2E7D32,stroke-width:3px

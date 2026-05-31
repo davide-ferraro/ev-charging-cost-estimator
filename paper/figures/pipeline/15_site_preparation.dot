@@ -1,0 +1,42 @@
+digraph item {
+    rankdir=LR
+    splines=true
+    nodesep=0.5
+    ranksep=1.8
+    node [shape=box, style=filled, fontname="Helvetica", fontsize=11, margin="0.12,0.08"]
+    edge [fontname="Helvetica", fontsize=10]
+
+    TITLE [shape=none, label="Site preparation", fontname="Helvetica Bold", fontsize=16, fontcolor="#263238"]
+
+    subgraph cluster_inputs {
+        label="User Inputs"
+        fontname="Helvetica Bold"
+        fontsize=13
+        fontcolor="#1565C0"
+        color="#1565C0"
+        style=rounded
+        bgcolor="#E3F2FD"
+    I13 [label="Land area [m²]", fillcolor="#BBDEFB", color="#1565C0"]
+    I15 [label="Pavement material", fillcolor="#BBDEFB", color="#1565C0"]
+    I16 [label="Land type", fillcolor="#BBDEFB", color="#1565C0"]
+    }
+
+    subgraph cluster_cf {
+        label="Cost Functions"
+        fontname="Helvetica Bold"
+        fontsize=13
+        fontcolor="#4527A0"
+        color="#4527A0"
+        style=rounded
+        bgcolor="#EDE7F6"
+    CF15 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2"><TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/lut.png"/></TD></TR><TR><TD ALIGN="CENTER"><B>Site Preparation Cost</B></TD></TR><TR><TD ALIGN="CENTER">area, material → €</TD></TR></TABLE>>, shape=box, fillcolor="#FFF8E1", color="#F57F17"]
+    }
+
+    EUR [label="€  Site preparation", shape=box, fillcolor="#E8F5E9", color="#2E7D32", fontname="Helvetica Bold", fontsize=11]
+
+
+    I13 -> CF15 [color="#546E7A", style=dashed]
+    I15 -> CF15 [color="#546E7A", style=dashed]
+    I16 -> CF15 [color="#546E7A", style=dashed]
+    CF15 -> EUR [color="#2E7D32", penwidth=2]
+}

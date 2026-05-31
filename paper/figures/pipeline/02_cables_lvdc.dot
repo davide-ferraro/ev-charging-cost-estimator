@@ -1,0 +1,57 @@
+digraph item {
+    rankdir=LR
+    splines=true
+    nodesep=0.5
+    ranksep=1.8
+    node [shape=box, style=filled, fontname="Helvetica", fontsize=11, margin="0.12,0.08"]
+    edge [fontname="Helvetica", fontsize=10]
+
+    TITLE [shape=none, label="Cables LVDC (Rectifier-Chargers)", fontname="Helvetica Bold", fontsize=16, fontcolor="#263238"]
+
+    subgraph cluster_inputs {
+        label="User Inputs"
+        fontname="Helvetica Bold"
+        fontsize=13
+        fontcolor="#1565C0"
+        color="#1565C0"
+        style=rounded
+        bgcolor="#E3F2FD"
+    I1 [label="Number of chargers (n)", fillcolor="#BBDEFB", color="#1565C0"]
+    I2 [label="Power per charger (P) [kW]", fillcolor="#BBDEFB", color="#1565C0"]
+    I3 [label="LV level (V_LV) [V]", fillcolor="#BBDEFB", color="#1565C0"]
+    I5 [label="Distance rectifier→chargers [m]", fillcolor="#BBDEFB", color="#1565C0"]
+    }
+
+    subgraph cluster_sizing {
+        label="Sizing Calculations"
+        fontname="Helvetica Bold"
+        fontsize=13
+        fontcolor="#E65100"
+        color="#E65100"
+        style=rounded
+        bgcolor="#FFF8E1"
+    S2 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2"><TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR><TR><TD ALIGN="CENTER"><B>DC Cables</B></TD></TR><TR><TD ALIGN="CENTER">I = n·P/(V·V_LV)</TD></TR></TABLE>>, shape=box, fillcolor="#FFE0B2", color="#E65100"]
+    }
+
+    subgraph cluster_cf {
+        label="Cost Functions"
+        fontname="Helvetica Bold"
+        fontsize=13
+        fontcolor="#4527A0"
+        color="#4527A0"
+        style=rounded
+        bgcolor="#EDE7F6"
+    CF4 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2"><TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR><TR><TD ALIGN="CENTER"><B>DC Cables Cost</B></TD></TR><TR><TD ALIGN="CENTER">I [A], dist → €</TD></TR></TABLE>>, shape=box, fillcolor="#E8EAF6", color="#283593"]
+    }
+
+    EUR [label="€  Cables LVDC (Rectifier-Chargers)", shape=box, fillcolor="#E8F5E9", color="#2E7D32", fontname="Helvetica Bold", fontsize=11]
+
+
+    I1 -> S2 [color="#546E7A"]
+    I2 -> S2 [color="#546E7A"]
+    I3 -> S2 [color="#546E7A"]
+    I5 -> S2 [color="#546E7A"]
+    S2 -> CF4 [label="I [A]", color="#1565C0", fontcolor="#1565C0", penwidth=2]
+    I5 -> CF4 [color="#546E7A", style=dashed]
+    CF4 -> EUR [color="#2E7D32", penwidth=2]
+}

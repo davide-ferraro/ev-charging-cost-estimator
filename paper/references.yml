@@ -247,3 +247,85 @@ ieee_142:
   author: "IEEE"
   url: "https://hibp.ecse.rpi.edu/~connor/education/Fields/IEEEStd142_2007.pdf"
   date: 2007
+
+nrel_evix:
+  type: Web
+  title: "EVI-X Modeling Suite (EVI-Pro, EVI-FAST)"
+  author: "National Renewable Energy Laboratory"
+  url: "https://www.nrel.gov/transportation/evi-x"
+
+lanz_eu_lcoc:
+  type: Article
+  title: "Comparing the levelized cost of electric vehicle charging options in Europe"
+  author: ["Lanz, Lukas", "Noll, Bessie", "Schmidt, Tobias S.", "Steffen, Bjarne"]
+  parent:
+    type: Periodical
+    title: "Nature Communications"
+  volume: 13
+  serial-number:
+    doi: "10.1038/s41467-022-32835-7"
+  url: "https://doi.org/10.1038/s41467-022-32835-7"
+  date: 2022
+
+atlas_calculator:
+  type: Web
+  title: "EV Charging Cost Calculator"
+  author: "Atlas Public Policy"
+  url: "https://atlaspolicy.com/ev-charging-cost-calculator/"
+
+nicholas_icct_2019:
+  type: Report
+  title: "Estimating electric vehicle charging infrastructure costs across major U.S. metropolitan areas"
+  author: "Nicholas, Michael"
+  publisher: "International Council on Clean Transportation"
+  serial-number: "ICCT Working Paper 2019-14"
+  url: "https://theicct.org/publication/estimating-electric-vehicle-charging-infrastructure-costs-across-major-u-s-metropolitan-areas/"
+  date: 2019
+
+borlaug_hdv_2021:
+  type: Article
+  title: "Heavy-duty truck electrification and the impacts of depot charging on electricity distribution systems"
+  author: ["Borlaug, Brennan", "Muratori, Matteo", "Gilleran, Madeline", "Woody, David", "Muston, William", "Canada, Thomas"]
+  parent:
+    type: Periodical
+    title: "Nature Energy"
+  volume: 6
+  page-range: 673-682
+  serial-number:
+    doi: "10.1038/s41560-021-00855-0"
+  url: "https://doi.org/10.1038/s41560-021-00855-0"
+  date: 2021
+
+wang_depot_2025:
+  type: Article
+  title: "The infrastructure cost for depot charging of battery electric trucks"
+  author: ["Wang, Guihua", "Miller, Marshall", "Fulton, Lewis"]
+  parent:
+    type: Periodical
+    title: "The Electricity Journal"
+  url: "https://www.sciencedirect.com/science/article/abs/pii/S1040619025000351"
+  date: 2025
+
+datafev_2023:
+  type: Article
+  title: "datafev: A Python framework for development and testing of management algorithms for electric vehicle charging infrastructures"
+  author: ["Gümrükcü, Erdem", "Ahmadifar, Amir", "Yavuzer, Aytug", "Ponci, Ferdinanda", "Monti, Antonello"]
+  parent:
+    type: Periodical
+    title: "Software Impacts"
+  volume: 15
+  serial-number: "100467"
+  url: "https://www.sciencedirect.com/science/article/pii/S2665963823000040"
+  date: 2023
+
+evecosim_2024:
+  type: Article
+  title: "EV-EcoSim: A grid-aware co-simulation platform for the design and optimization of electric vehicle charging infrastructure"
+  author: ["Balogun, Emmanuel", "Buechler, Elizabeth", "Bhela, Siddharth", "Onori, Simona", "Rajagopal, Ram"]
+  parent:
+    type: Periodical
+    title: "IEEE Transactions on Smart Grid"
+  serial-number:
+    doi: "10.1109/TSG.2023.3339374"
+  url: "https://doi.org/10.1109/TSG.2023.3339374"
+  date: 2024

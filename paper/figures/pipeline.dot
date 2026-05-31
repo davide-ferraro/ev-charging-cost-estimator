@@ -1,0 +1,398 @@
+digraph pipeline {
+    layout=neato
+    overlap=false
+    splines=true
+    outputorder=edgesfirst
+    node [shape=box, style=filled, fontname="Helvetica", fontsize=12, margin="0.12,0.08", fixedsize=false]
+    edge [fontname="Helvetica", fontsize=11]
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // COLUMN 1: USER INPUTS (x=0)
+    // ═══════════════════════════════════════════════════════════════════════
+    subgraph cluster_inputs {
+        label="User Inputs"
+        fontname="Helvetica Bold"
+        fontsize=15
+        fontcolor="#1565C0"
+        color="#1565C0"
+        style=rounded
+        bgcolor="#E3F2FD"
+
+        I3  [label="LV level (V_LV) [V]",                         fillcolor="#BBDEFB", color="#1565C0", pos="0,1740!"]
+        I5  [label="Distance rectifier→chargers [m]",             fillcolor="#BBDEFB", color="#1565C0", pos="0,1628!"]
+        I9  [label="Distance to MV/LV transformer [m]",           fillcolor="#BBDEFB", color="#1565C0", pos="0,1516!"]
+        I12 [label="Distance to MV access point [m]",             fillcolor="#BBDEFB", color="#1565C0", pos="0,1404!"]
+        I10 [label="MV level (V_MV) [kV]",                        fillcolor="#BBDEFB", color="#1565C0", pos="0,1292!"]
+        I11 [label="Transformer safety margin [%]",               fillcolor="#BBDEFB", color="#1565C0", pos="0,1180!"]
+        I1  [label="Number of chargers (n)",                       fillcolor="#BBDEFB", color="#1565C0", pos="0,1068!"]
+        I2  [label="Power per charger (P) [kW]",                  fillcolor="#BBDEFB", color="#1565C0", pos="0,956!"]
+        I4  [label="Grid connection capacity (G) [kVA]",          fillcolor="#BBDEFB", color="#1565C0", pos="0,844!"]
+        I6  [label="Load Power Factor (pf)",                       fillcolor="#BBDEFB", color="#1565C0", pos="0,732!"]
+        I7  [label="Max LV connection power [kVA]",               fillcolor="#BBDEFB", color="#1565C0", pos="0,620!"]
+        I8  [label="Available MV/LV transformer capacity [kVA]",  fillcolor="#BBDEFB", color="#1565C0", pos="0,508!"]
+        I14 [label="Transformer present on premises?",            fillcolor="#BBDEFB", color="#1565C0", pos="0,396!"]
+        I13 [label="Land area [m²]",                              fillcolor="#BBDEFB", color="#1565C0", pos="0,284!"]
+        I15 [label="Pavement material",                           fillcolor="#BBDEFB", color="#1565C0", pos="0,172!"]
+        I16 [label="Land type",                                   fillcolor="#BBDEFB", color="#1565C0", pos="0,60!"]
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // COLUMN 2: PROJECT TYPE (x=400)
+    // ═══════════════════════════════════════════════════════════════════════
+    subgraph cluster_pt {
+        label="Project Type"
+        fontname="Helvetica Bold"
+        fontsize=15
+        fontcolor="#2E7D32"
+        color="#2E7D32"
+        style=rounded
+        bgcolor="#E8F5E9"
+
+        PT [label="Project Type\nClassification\n(Type 1/2/3/4)",
+            fillcolor="#A5D6A7", color="#2E7D32",
+            fontname="Helvetica Bold", fontsize=9,
+            pos="400,732!"]
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // COLUMN 3: ELECTRICAL SIZING (x=780)
+    // ═══════════════════════════════════════════════════════════════════════
+    subgraph cluster_sizing {
+        label="Electrical Sizing"
+        fontname="Helvetica Bold"
+        fontsize=15
+        fontcolor="#E65100"
+        color="#E65100"
+        style=rounded
+        bgcolor="#FFF8E1"
+
+        S1  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>LV Cabinet</B></TD></TR>
+                <TR><TD ALIGN="CENTER">I = n·P/(√3·V_LV)</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#FFE0B2", color="#E65100", pos="780,1740!"]
+
+        S2  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>DC Cables</B></TD></TR>
+                <TR><TD ALIGN="CENTER">I = n·P/(V·V_LV)</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#FFE0B2", color="#E65100", pos="780,1620!"]
+
+        S3  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>LV Distribution Cables</B></TD></TR>
+                <TR><TD ALIGN="CENTER">I = (n·P/pf−G)/(√3·V_LV)</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#FFE0B2", color="#E65100", pos="780,1500!"]
+
+        S4  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>MV Cables</B></TD></TR>
+                <TR><TD ALIGN="CENTER">I = (n·P/pf−G)/(√3·V_MV)</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#FFE0B2", color="#E65100", pos="780,1380!"]
+
+        S5  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>Transformer</B></TD></TR>
+                <TR><TD ALIGN="CENTER">S = (n·P/pf−G)·(1+margin)</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#FFE0B2", color="#E65100", pos="780,1260!"]
+
+        S6  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>MV Switchgear</B></TD></TR>
+                <TR><TD ALIGN="CENTER">I = (n·P/pf−G)/(√3·V_MV)</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#FFE0B2", color="#E65100", pos="780,1140!"]
+
+        S7  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/passthrough.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>Surge Arresters</B></TD></TR>
+                <TR><TD ALIGN="CENTER">passes V_MV [kV]</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#FFE0B2", color="#E65100", pos="780,1020!"]
+
+        S8  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/passthrough.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>Grounding Resistors</B></TD></TR>
+                <TR><TD ALIGN="CENTER">passes V_MV [kV]</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#FFE0B2", color="#E65100", pos="780,900!"]
+
+        S10 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/passthrough.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>Chargers</B></TD></TR>
+                <TR><TD ALIGN="CENTER">passes P [kW]</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#FFE0B2", color="#E65100", pos="780,780!"]
+
+        S9  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/ceiling.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>Rectifier</B></TD></TR>
+                <TR><TD ALIGN="CENTER">k = ⌈n·P / 200⌉</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#FFE0B2", color="#E65100", pos="780,660!"]
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // COLUMN 4: COST FUNCTIONS (x=1180)
+    // CF13 and CF14 are moved to column 5 (x=1560) because they take
+    // another cost function's output as input.
+    // Icon key:
+    //   linear.png      = ax+b       (indigo)
+    //   lut.png         = Lookup Tbl (amber)
+    //   exponential.png = Ae^(bx)    (dark pink)
+    //   ceiling.png     = ⌈x⌉        (purple)
+    //   weighted.png    = Σwᵢxᵢ      (teal)
+    //   derived.png     = f⁻¹        (grey-blue)
+    // ═══════════════════════════════════════════════════════════════════════
+    subgraph cluster_cf {
+        label="Cost Functions"
+        fontname="Helvetica Bold"
+        fontsize=15
+        fontcolor="#4527A0"
+        color="#4527A0"
+        style=rounded
+        bgcolor="#EDE7F6"
+
+        CF3  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>LV Cabinet Cost</B></TD></TR>
+                <TR><TD ALIGN="CENTER">I [A] → €</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#E8EAF6", color="#283593", pos="1180,1740!"]
+
+        CF4  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>DC Cables Cost</B></TD></TR>
+                <TR><TD ALIGN="CENTER">I [A], dist [m] → €</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#E8EAF6", color="#283593", pos="1180,1620!"]
+
+        CF5  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>LV Cables Cost</B></TD></TR>
+                <TR><TD ALIGN="CENTER">I [A], dist [m] → €</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#E8EAF6", color="#283593", pos="1180,1500!"]
+
+        CF6  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/exponential.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>MV Cables Cost</B></TD></TR>
+                <TR><TD ALIGN="CENTER">I [A], dist [m] → €</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#FCE4EC", color="#880E4F", pos="1180,1380!"]
+
+        CF7  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/lut.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>Transformer Cost</B></TD></TR>
+                <TR><TD ALIGN="CENTER">S [kVA] → €</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#FFF8E1", color="#F57F17", pos="1180,1260!"]
+
+        CF8  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/weighted.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>Switchgear Cost</B></TD></TR>
+                <TR><TD ALIGN="CENTER">I [A], V [kV] → €</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#E0F2F1", color="#00695C", pos="1180,1140!"]
+
+        CF9  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/lut.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>Surge Arresters Cost</B></TD></TR>
+                <TR><TD ALIGN="CENTER">V [kV] → €</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#FFF8E1", color="#F57F17", pos="1180,1020!"]
+
+        CF10 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/lut.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>Grounding Resistors Cost</B></TD></TR>
+                <TR><TD ALIGN="CENTER">V [kV] → €</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#FFF8E1", color="#F57F17", pos="1180,900!"]
+
+        CF1  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/lut.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>Charger Cost</B></TD></TR>
+                <TR><TD ALIGN="CENTER">P [kW] → €</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#FFF8E1", color="#F57F17", pos="1180,780!"]
+
+        CF2  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/ceiling.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>Rectifier Cost</B></TD></TR>
+                <TR><TD ALIGN="CENTER">⌈n·P/200⌉ → €</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#F3E5F5", color="#6A1B9A", pos="1180,660!"]
+
+        CF11 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>Planning Cost</B></TD></TR>
+                <TR><TD ALIGN="CENTER">n, P → €</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#E8EAF6", color="#283593", pos="1180,540!"]
+
+        CF12 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>Installation Cost</B></TD></TR>
+                <TR><TD ALIGN="CENTER">n, P, Type → €</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#E8EAF6", color="#283593", pos="1180,420!"]
+
+        CF15 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/lut.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>Site Preparation Cost</B></TD></TR>
+                <TR><TD ALIGN="CENTER">area, material, type → €</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#FFF8E1", color="#F57F17", pos="1180,180!"]
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // COLUMN 5: CHAINED COST FUNCTIONS (x=1560) — take another CF as input
+    // ═══════════════════════════════════════════════════════════════════════
+    subgraph cluster_cf2 {
+        label="Chained Cost Functions"
+        fontname="Helvetica Bold"
+        fontsize=15
+        fontcolor="#4527A0"
+        color="#4527A0"
+        style=rounded
+        bgcolor="#EDE7F6"
+
+        CF13 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>LV Connection Cost</B></TD></TR>
+                <TR><TD ALIGN="CENTER">LV cable cost → €</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#E8EAF6", color="#283593", pos="1780,1500!"]
+
+        CF14 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+                <TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/derived.png"/></TD></TR>
+                <TR><TD ALIGN="CENTER"><B>MV Connection Cost</B></TD></TR>
+                <TR><TD ALIGN="CENTER">MV cable cost, dist → €</TD></TR>
+              </TABLE>>, shape=box, fillcolor="#ECEFF1", color="#546E7A", pos="1780,1380!"]
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // € OUTPUT NODES
+    // ═══════════════════════════════════════════════════════════════════════
+    node [shape=box, style=filled, fillcolor="#E8F5E9", color="#2E7D32",
+          fontname="Helvetica Bold", fontsize=8, margin="0.08,0.05"]
+    EUR3  [label="€  LV cabinet",                    pos="1480,1740!"]
+    EUR4  [label="€  Cables LVDC (Rectifier-Chargers)", pos="1480,1620!"]
+    EUR5  [label="€  Cables LVAC (Distribution-Site)", pos="1480,1500!"]
+    EUR6  [label="€  Cables MVAC (Distribution-Site)", pos="1480,1380!"]
+    EUR7  [label="€  Transformer",                   pos="1480,1260!"]
+    EUR8  [label="€  Switchgear",                    pos="1480,1140!"]
+    EUR9  [label="€  Surge Arresters",               pos="1480,1020!"]
+    EUR10 [label="€  Grounding Resistors",           pos="1480,900!"]
+    EUR1  [label="€  Chargers",                      pos="1480,780!"]
+    EUR2  [label="€  Rectifier",                     pos="1480,660!"]
+    EUR11 [label="€  Planning",                      pos="1480,540!"]
+    EUR12 [label="€  Installation",                  pos="1480,420!"]
+    EUR15 [label="€  Site preparation",              pos="1480,180!"]
+    EUR13 [label="€  LV connection cost",            pos="2080,1500!"]
+    EUR14 [label="€  MV connection cost",            pos="2080,1380!"]
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // EDGES: INPUTS → PROJECT TYPE
+    // ═══════════════════════════════════════════════════════════════════════
+    I1:e -> PT [color="#546E7A"] I2:e -> PT [color="#546E7A"] I4:e -> PT [color="#546E7A"]
+    I6:e -> PT [color="#546E7A"] I7:e -> PT [color="#546E7A"] I8:e -> PT [color="#546E7A"]
+    I14:e -> PT [color="#546E7A"]
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // EDGES: PT → ELECTRICAL SIZING
+    // ═══════════════════════════════════════════════════════════════════════
+    PT:e -> S3 [color="#2E7D32", style=dashed, penwidth=1.2]
+    PT:e -> S4 [color="#2E7D32", style=dashed, penwidth=1.2]
+    PT:e -> S5 [color="#2E7D32", style=dashed, penwidth=1.2]
+    PT:e -> S6 [color="#2E7D32", style=dashed, penwidth=1.2]
+    PT:e -> S7 [color="#2E7D32", style=dashed, penwidth=1.2]
+    PT:e -> S8 [color="#2E7D32", style=dashed, penwidth=1.2]
+    PT:e -> S9 [color="#2E7D32", style=dashed, penwidth=1.2]
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // EDGES: INPUTS → ELECTRICAL SIZING
+    // ═══════════════════════════════════════════════════════════════════════
+    I1:e -> S1 [color="#546E7A"] I2:e -> S1 [color="#546E7A"] I3:e -> S1 [color="#546E7A"]
+    I1:e -> S2 [color="#546E7A"] I2:e -> S2 [color="#546E7A"] I3:e -> S2 [color="#546E7A"] I5:e -> S2 [color="#546E7A"]
+    I1:e -> S3 [color="#546E7A"] I2:e -> S3 [color="#546E7A"] I3:e -> S3 [color="#546E7A"] I4:e -> S3 [color="#546E7A"] I6:e -> S3 [color="#546E7A"] I9:e -> S3 [color="#546E7A"]
+    I1:e -> S4 [color="#546E7A"] I2:e -> S4 [color="#546E7A"] I4:e -> S4 [color="#546E7A"] I6:e -> S4 [color="#546E7A"] I10:e -> S4 [color="#546E7A"] I12:e -> S4 [color="#546E7A"]
+    I1:e -> S5 [color="#546E7A"] I2:e -> S5 [color="#546E7A"] I4:e -> S5 [color="#546E7A"] I6:e -> S5 [color="#546E7A"] I11:e -> S5 [color="#546E7A"]
+    I1:e -> S6 [color="#546E7A"] I2:e -> S6 [color="#546E7A"] I4:e -> S6 [color="#546E7A"] I6:e -> S6 [color="#546E7A"] I10:e -> S6 [color="#546E7A"]
+    I10:e -> S7 [color="#546E7A"] I10:e -> S8 [color="#546E7A"]
+    I1:e -> S9 [color="#546E7A"] I2:e -> S9 [color="#546E7A"]
+    I1:e -> S10 [color="#546E7A"] I2:e -> S10 [color="#546E7A"]
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // EDGES: SIZING → COST FUNCTIONS (colored by quantity type)
+    // ═══════════════════════════════════════════════════════════════════════
+    S1:e  -> CF3  [label="I [A]",        color="#1565C0", fontcolor="#1565C0", penwidth=2]
+    S2:e  -> CF4  [label="I [A]",        color="#1565C0", fontcolor="#1565C0", penwidth=2]
+    S3:e  -> CF5  [label="I [A]",        color="#1565C0", fontcolor="#1565C0", penwidth=2]
+    S4:e  -> CF6  [label="I [A]",        color="#1565C0", fontcolor="#1565C0", penwidth=2]
+    S5:e  -> CF7  [label="S [kVA]",      color="#E65100", fontcolor="#E65100", penwidth=2]
+    S6:e  -> CF8  [label="I [A], V[kV]", color="#1565C0", fontcolor="#1565C0", penwidth=2]
+    S7:e  -> CF9  [label="V [kV]",       color="#6A1B9A", fontcolor="#6A1B9A", penwidth=2]
+    S8:e  -> CF10 [label="V [kV]",       color="#6A1B9A", fontcolor="#6A1B9A", penwidth=2]
+    S10:e -> CF1  [label="P [kW]",       color="#2E7D32", fontcolor="#2E7D32", penwidth=2]
+    S9:e  -> CF2  [label="P [kW]",       color="#2E7D32", fontcolor="#2E7D32", penwidth=2]
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // EDGES: ADDITIONAL USER INPUTS → COST FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════════════
+    I5:e  -> CF4  [color="#546E7A", style=dashed]
+    I9:e  -> CF5  [color="#546E7A", style=dashed]
+    I12:e -> CF6  [color="#546E7A", style=dashed]
+    I10:e -> CF8  [color="#546E7A", style=dashed]
+    I1:e  -> CF11 [color="#546E7A", style=dashed] I2:e -> CF11 [color="#546E7A", style=dashed]
+    I1:e  -> CF12 [color="#546E7A", style=dashed] I2:e -> CF12 [color="#546E7A", style=dashed]
+    I12:e -> CF14 [color="#546E7A", style=dashed]
+    I13:e -> CF15 [color="#546E7A", style=dashed]
+    I15:e -> CF15 [color="#546E7A", style=dashed]
+    I16:e -> CF15 [color="#546E7A", style=dashed]
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // EDGES: PT → COST FUNCTIONS (case gates)
+    // ═══════════════════════════════════════════════════════════════════════
+    PT:e -> CF5  [color="#2E7D32", style=dashed, penwidth=1.2]
+    PT:e -> CF6  [color="#2E7D32", style=dashed, penwidth=1.2]
+    PT:e -> CF7  [color="#2E7D32", style=dashed, penwidth=1.2]
+    PT:e -> CF8  [color="#2E7D32", style=dashed, penwidth=1.2]
+    PT:e -> CF9  [color="#2E7D32", style=dashed, penwidth=1.2]
+    PT:e -> CF10 [color="#2E7D32", style=dashed, penwidth=1.2]
+    PT:e -> CF12 [color="#2E7D32", style=dashed, penwidth=1.2]
+    PT:e -> CF14 [color="#2E7D32", style=dashed, penwidth=1.2]
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // EDGES: CF CHAINS (CF5→CF13, CF6→CF14)
+    // ═══════════════════════════════════════════════════════════════════════
+    CF5:e -> CF13 [label="LV cost [€]", color="#880E4F", fontcolor="#880E4F", penwidth=2]
+    CF6:e -> CF14 [label="MV cost [€]", color="#880E4F", fontcolor="#880E4F", penwidth=2]
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // EDGES: COST FUNCTIONS → €
+    // ═══════════════════════════════════════════════════════════════════════
+    CF3:e  -> EUR3  [color="#2E7D32", penwidth=2]
+    CF4:e  -> EUR4  [color="#2E7D32", penwidth=2]
+    CF5:e  -> EUR5  [color="#2E7D32", penwidth=2]
+    CF6:e  -> EUR6  [color="#2E7D32", penwidth=2]
+    CF7:e  -> EUR7  [color="#2E7D32", penwidth=2]
+    CF8:e  -> EUR8  [color="#2E7D32", penwidth=2]
+    CF9:e  -> EUR9  [color="#2E7D32", penwidth=2]
+    CF10:e -> EUR10 [color="#2E7D32", penwidth=2]
+    CF1:e  -> EUR1  [color="#2E7D32", penwidth=2]
+    CF2:e  -> EUR2  [color="#2E7D32", penwidth=2]
+    CF11:e -> EUR11 [color="#2E7D32", penwidth=2]
+    CF12:e -> EUR12 [color="#2E7D32", penwidth=2]
+    CF15:e -> EUR15 [color="#2E7D32", penwidth=2]
+    CF13:e -> EUR13 [color="#2E7D32", penwidth=2]
+    CF14:e -> EUR14 [color="#2E7D32", penwidth=2]
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // TITLE
+    // ═══════════════════════════════════════════════════════════════════════
+    TITLE [shape=none, label="EV Charging Infrastructure — Investment Cost Estimation Pipeline",
+           fontname="Helvetica Bold", fontsize=18, fontcolor="#263238",
+           pos="950,1930!"]
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // LAYER TITLES
+    // ═══════════════════════════════════════════════════════════════════════
+    LT1 [shape=none, label="User Inputs",              fontname="Helvetica Bold", fontsize=14, fontcolor="#1565C0", pos="135,1870!"]
+    LT2 [shape=none, label="Project Type\nDefinition", fontname="Helvetica Bold", fontsize=14, fontcolor="#2E7D32", pos="430,1870!"]
+    LT3 [shape=none, label="Sizing\nCalculations",     fontname="Helvetica Bold", fontsize=14, fontcolor="#E65100", pos="790,1870!"]
+    LT4 [shape=none, label="Cost Functions",           fontname="Helvetica Bold", fontsize=14, fontcolor="#4527A0", pos="1350,1870!"]
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // COLUMN SEPARATORS (vertical dashed lines between layers)
+    // ═══════════════════════════════════════════════════════════════════════
+    node [shape=point, width=0.01, height=0.01, label="", style=invis, fillcolor="white"]
+    SA1 [pos="270,1850!"] SA2 [pos="270,-10!"]
+    SB1 [pos="590,1850!"] SB2 [pos="590,-10!"]
+    SC1 [pos="990,1850!"] SC2 [pos="990,-10!"]
+
+    SA1 -> SA2 [dir=none, color="#90A4AE", penwidth=1.5, style=dashed]
+    SB1 -> SB2 [dir=none, color="#90A4AE", penwidth=1.5, style=dashed]
+    SC1 -> SC2 [dir=none, color="#90A4AE", penwidth=1.5, style=dashed]
+}

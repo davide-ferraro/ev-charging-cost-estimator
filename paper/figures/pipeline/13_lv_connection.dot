@@ -1,0 +1,87 @@
+digraph item {
+    rankdir=LR
+    splines=true
+    nodesep=0.5
+    ranksep=1.8
+    node [shape=box, style=filled, fontname="Helvetica", fontsize=11, margin="0.12,0.08"]
+    edge [fontname="Helvetica", fontsize=10]
+
+    TITLE [shape=none, label="LV connection cost", fontname="Helvetica Bold", fontsize=16, fontcolor="#263238"]
+
+    subgraph cluster_inputs {
+        label="User Inputs"
+        fontname="Helvetica Bold"
+        fontsize=13
+        fontcolor="#1565C0"
+        color="#1565C0"
+        style=rounded
+        bgcolor="#E3F2FD"
+    I1 [label="Number of chargers (n)", fillcolor="#BBDEFB", color="#1565C0"]
+    I14 [label="Transformer present on premises?", fillcolor="#BBDEFB", color="#1565C0"]
+    I2 [label="Power per charger (P) [kW]", fillcolor="#BBDEFB", color="#1565C0"]
+    I3 [label="LV level (V_LV) [V]", fillcolor="#BBDEFB", color="#1565C0"]
+    I4 [label="Grid connection capacity (G) [kVA]", fillcolor="#BBDEFB", color="#1565C0"]
+    I6 [label="Load Power Factor (pf)", fillcolor="#BBDEFB", color="#1565C0"]
+    I7 [label="Max LV connection power [kVA]", fillcolor="#BBDEFB", color="#1565C0"]
+    I8 [label="Available MV/LV transformer capacity [kVA]", fillcolor="#BBDEFB", color="#1565C0"]
+    I9 [label="Distance to MV/LV transformer [m]", fillcolor="#BBDEFB", color="#1565C0"]
+    }
+
+    subgraph cluster_pt {
+        label="Project Type"
+        fontname="Helvetica Bold"
+        fontsize=13
+        fontcolor="#2E7D32"
+        color="#2E7D32"
+        style=rounded
+        bgcolor="#E8F5E9"
+        PT [label="Project Type\nClassification\n(Type 1/2/3/4)", fillcolor="#A5D6A7", color="#2E7D32", fontname="Helvetica Bold", fontsize=10]
+    }
+
+    subgraph cluster_sizing {
+        label="Sizing Calculations"
+        fontname="Helvetica Bold"
+        fontsize=13
+        fontcolor="#E65100"
+        color="#E65100"
+        style=rounded
+        bgcolor="#FFF8E1"
+    S3 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2"><TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR><TR><TD ALIGN="CENTER"><B>LV Distribution Cables</B></TD></TR><TR><TD ALIGN="CENTER">I = (n·P/pf−G)/(√3·V_LV)</TD></TR></TABLE>>, shape=box, fillcolor="#FFE0B2", color="#E65100"]
+    }
+
+    subgraph cluster_cf {
+        label="Cost Functions"
+        fontname="Helvetica Bold"
+        fontsize=13
+        fontcolor="#4527A0"
+        color="#4527A0"
+        style=rounded
+        bgcolor="#EDE7F6"
+    CF5 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2"><TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR><TR><TD ALIGN="CENTER"><B>LV Cables Cost</B></TD></TR><TR><TD ALIGN="CENTER">I [A], dist → €</TD></TR></TABLE>>, shape=box, fillcolor="#E8EAF6", color="#283593"]
+    CF13 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2"><TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/linear.png"/></TD></TR><TR><TD ALIGN="CENTER"><B>LV Connection Cost</B></TD></TR><TR><TD ALIGN="CENTER">LV cable cost → €</TD></TR></TABLE>>, shape=box, fillcolor="#E8EAF6", color="#283593"]
+    }
+
+    EUR [label="€  LV connection cost", shape=box, fillcolor="#E8F5E9", color="#2E7D32", fontname="Helvetica Bold", fontsize=11]
+
+
+    I1 -> PT [color="#546E7A"]
+    I2 -> PT [color="#546E7A"]
+    I4 -> PT [color="#546E7A"]
+    I6 -> PT [color="#546E7A"]
+    I7 -> PT [color="#546E7A"]
+    I8 -> PT [color="#546E7A"]
+    I14 -> PT [color="#546E7A"]
+    I1 -> S3 [color="#546E7A"]
+    I2 -> S3 [color="#546E7A"]
+    I3 -> S3 [color="#546E7A"]
+    I4 -> S3 [color="#546E7A"]
+    I6 -> S3 [color="#546E7A"]
+    I9 -> S3 [color="#546E7A"]
+    PT -> S3 [color="#2E7D32", style=dashed, penwidth=1.5]
+    S3 -> CF5 [label="I [A]", color="#1565C0", fontcolor="#1565C0", penwidth=2]
+    I9 -> CF5 [color="#546E7A", style=dashed]
+    PT -> CF5 [color="#2E7D32", style=dashed, penwidth=1.5]
+    CF5 -> CF13 [label="cost [€]", color="#880E4F", fontcolor="#880E4F", penwidth=2]
+    PT -> CF13 [color="#2E7D32", style=dashed, penwidth=1.5]
+    CF13 -> EUR [color="#2E7D32", penwidth=2]
+}

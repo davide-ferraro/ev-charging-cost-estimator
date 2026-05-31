@@ -1,0 +1,77 @@
+digraph item {
+    rankdir=LR
+    splines=true
+    nodesep=0.5
+    ranksep=1.8
+    node [shape=box, style=filled, fontname="Helvetica", fontsize=11, margin="0.12,0.08"]
+    edge [fontname="Helvetica", fontsize=10]
+
+    TITLE [shape=none, label="Surge Arresters", fontname="Helvetica Bold", fontsize=16, fontcolor="#263238"]
+
+    subgraph cluster_inputs {
+        label="User Inputs"
+        fontname="Helvetica Bold"
+        fontsize=13
+        fontcolor="#1565C0"
+        color="#1565C0"
+        style=rounded
+        bgcolor="#E3F2FD"
+    I1 [label="Number of chargers (n)", fillcolor="#BBDEFB", color="#1565C0"]
+    I10 [label="MV level (V_MV) [kV]", fillcolor="#BBDEFB", color="#1565C0"]
+    I14 [label="Transformer present on premises?", fillcolor="#BBDEFB", color="#1565C0"]
+    I2 [label="Power per charger (P) [kW]", fillcolor="#BBDEFB", color="#1565C0"]
+    I4 [label="Grid connection capacity (G) [kVA]", fillcolor="#BBDEFB", color="#1565C0"]
+    I6 [label="Load Power Factor (pf)", fillcolor="#BBDEFB", color="#1565C0"]
+    I7 [label="Max LV connection power [kVA]", fillcolor="#BBDEFB", color="#1565C0"]
+    I8 [label="Available MV/LV transformer capacity [kVA]", fillcolor="#BBDEFB", color="#1565C0"]
+    }
+
+    subgraph cluster_pt {
+        label="Project Type"
+        fontname="Helvetica Bold"
+        fontsize=13
+        fontcolor="#2E7D32"
+        color="#2E7D32"
+        style=rounded
+        bgcolor="#E8F5E9"
+        PT [label="Project Type\nClassification\n(Type 1/2/3/4)", fillcolor="#A5D6A7", color="#2E7D32", fontname="Helvetica Bold", fontsize=10]
+    }
+
+    subgraph cluster_sizing {
+        label="Sizing Calculations"
+        fontname="Helvetica Bold"
+        fontsize=13
+        fontcolor="#E65100"
+        color="#E65100"
+        style=rounded
+        bgcolor="#FFF8E1"
+    S7 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2"><TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/passthrough.png"/></TD></TR><TR><TD ALIGN="CENTER"><B>Surge Arresters</B></TD></TR><TR><TD ALIGN="CENTER">passes V_MV [kV]</TD></TR></TABLE>>, shape=box, fillcolor="#FFE0B2", color="#E65100"]
+    }
+
+    subgraph cluster_cf {
+        label="Cost Functions"
+        fontname="Helvetica Bold"
+        fontsize=13
+        fontcolor="#4527A0"
+        color="#4527A0"
+        style=rounded
+        bgcolor="#EDE7F6"
+    CF9 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2"><TR><TD><IMG SRC="/Users/davide/Documents/uni/ev-charging-cost-estimator/paper/figures/icons/lut.png"/></TD></TR><TR><TD ALIGN="CENTER"><B>Surge Arresters Cost</B></TD></TR><TR><TD ALIGN="CENTER">V [kV] → €</TD></TR></TABLE>>, shape=box, fillcolor="#FFF8E1", color="#F57F17"]
+    }
+
+    EUR [label="€  Surge Arresters", shape=box, fillcolor="#E8F5E9", color="#2E7D32", fontname="Helvetica Bold", fontsize=11]
+
+
+    I1 -> PT [color="#546E7A"]
+    I2 -> PT [color="#546E7A"]
+    I4 -> PT [color="#546E7A"]
+    I6 -> PT [color="#546E7A"]
+    I7 -> PT [color="#546E7A"]
+    I8 -> PT [color="#546E7A"]
+    I14 -> PT [color="#546E7A"]
+    I10 -> S7 [color="#546E7A"]
+    PT -> S7 [color="#2E7D32", style=dashed, penwidth=1.5]
+    S7 -> CF9 [label="V [kV]", color="#6A1B9A", fontcolor="#6A1B9A", penwidth=2]
+    PT -> CF9 [color="#2E7D32", style=dashed, penwidth=1.5]
+    CF9 -> EUR [color="#2E7D32", penwidth=2]
+}
