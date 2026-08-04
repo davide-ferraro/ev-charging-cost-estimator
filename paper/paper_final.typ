@@ -1,5 +1,5 @@
 // ============================================================
-// SoftwareX paper: Investment Cost Estimation Tool for
+// SoftwareX paper: CHARGE-IT - Investment Cost Estimation Tool for
 // Overnight HDV Charging Infrastructure
 // Import figures from typst_pictures/
 // ============================================================
@@ -12,12 +12,12 @@
 // ── Title block ─────────────────────────────────────────────
 #align(center)[
   #text(size: 14pt, weight: "bold")[
-    Investment Cost Estimation Tool for Overnight Charging \
+    CHARGE-IT: Investment Cost Estimation Tool for Overnight Charging \
     Infrastructure of Heavy-Duty Vehicles in Europe
   ]
 
   #v(0.6em)
-  #text(size: 11pt)[Davide Ferraro, Jagruti Thakur, Maria Carolina Gil Ribeiro]
+  #text(size: 11pt)[Davide Ferraro, Maria Carolina Gil Ribeiro, Jagruti Thakur]
 
   #text(size: 10pt, style: "italic")[
     KTH Royal Institute of Technology, Stockholm, 11428, Sweden \
@@ -39,7 +39,7 @@
 #v(0.5em)
 *Abstract*
 
-The deployment of overnight charging infrastructure for battery-electric heavy-duty vehicles (HDVs) is critical for decarbonizing European freight transport, yet decision-makers lack transparent, component-level cost estimation tools. This paper introduces an open-source, web-based investment cost calculator for overnight depot and public parking charging stations. The tool takes site-specific electrical parameters as input (number and power of chargers, grid connection type, voltage levels, cable distances, and site conditions) and automatically determines the project type (one of four categories based on grid connection requirements). It then sizes every electrical component from the grid connection point to the charging plug and computes itemized costs using real-world pricing data. The tool supports three analysis modes: cost breakdown, single-variable sensitivity, and two-parameter sensitivity analysis, enabling users to explore how different design choices affect total investment cost. Applied to nine case studies across Germany, Italy, and the United Kingdom, the tool produces investment costs ranging from €20,000 to €80,000 per charging plug, depending on grid connection type, charger power level, and deployment scale.
+The deployment of overnight charging infrastructure for battery-electric heavy-duty vehicles (HDVs) is critical for decarbonizing European freight transport, yet decision-makers lack transparent, component-level cost estimation tools. This paper introduces an open-source, web-based investment cost calculator for overnight depot and public parking charging stations. The tool takes site-specific electrical parameters as input (number and power of chargers, grid connection type, voltage levels, cable distances, and site conditions) and automatically determines the project type (one of four categories based on grid connection requirements). It then sizes every electrical component from the grid connection point to the charging plug and computes itemized costs using real-world pricing data. The tool supports three analysis functions: cost breakdown, single-variable sensitivity, and two-parameter sensitivity analysis, enabling users to explore how different design choices affect total investment cost. Applied to nine case studies across Germany, Italy, and the United Kingdom, the tool produces investment costs ranging from €20,000 to €80,000 per charging plug, depending on grid connection type, charger power level, and deployment scale.
 
 #v(0.5em)
 #line(length: 100%)
@@ -60,7 +60,7 @@ The deployment of overnight charging infrastructure for battery-electric heavy-d
     [Code versioning system], [git],
     [Languages, tools and services], [Python, Streamlit, Plotly, Pandas, NumPy, OpenPyXL],
     [Operating environments and dependencies], [Python ≥ 3.10],
-    [Link to developer documentation], [https://kth.diva-portal.org/smash/record.jsf?pid=diva2%3A2007635],
+    [Link to developer documentation], [_To be added_],
     [Support email], [davideferraro275\@gmail.com],
   )
 )
@@ -89,34 +89,31 @@ The tool is a Python web application built on Streamlit. Users configure a charg
 
 == Software Architecture
 
-The tool follows a three-layer architecture. The *presentation layer* (`app.py`, ~995 lines) collects the 16 user inputs through a Streamlit widget form, re-renders the interface on every change to enable or disable fields that depend on the current configuration, and displays results as interactive Plotly charts with Excel and PDF export. The *orchestration layer* (`utils/calls.py`, ~325 lines) validates inputs, runs `medium_requirement()` and `hard_requirement()` to check whether the existing grid connection can handle the planned load, calls `case_definition()` to assign one of four project types, and calls `compute_all_costs()` which dispatches to every relevant cost function. The *computational layer* (`utils/cost.py`, ~490 lines) contains the 15 cost functions, each of which takes one or more physical quantities and returns a cost in 2024 euros using lookup tables or fitted curves from industrial catalogs and published studies, together with a few shared helper routines for table lookup and unit conversion.
+The tool follows a three-layer architecture. The *presentation layer* (`app.py`, ~995 lines) collects the 16 user inputs through a Streamlit widget form. It re-renders the interface on every change to enable or disable fields that depend on the current configuration, and it displays results as interactive Plotly charts with Excel and PDF export. The *orchestration layer* (`utils/calls.py`, ~325 lines) validates the inputs and runs `medium_requirement()` and `hard_requirement()` to check whether the existing grid connection can handle the planned load. It then calls `case_definition()` to assign one of four project types and `compute_all_costs()` to dispatch to every relevant cost function. The *computational layer* (`utils/cost.py`, ~490 lines) contains the 15 cost functions. Each function takes one or more physical quantities and returns a cost in 2024 euros, using lookup tables or fitted curves from industrial catalogs and published studies. The layer also provides a few shared helper routines for table lookup and unit conversion.
 
-Data flows through four stages, shown in @fig1. The user's 16 input parameters feed the project type classifier and the electrical sizing calculations in parallel. The project type (1--4) gates which sizing calculations are active and which cost functions return non-zero values. The sized electrical quantities (current I [A], apparent power S [kVA], total power P [kW], and voltage V [kV]) feed 15 cost functions. Each cost function produces one line item in euros. Because Streamlit re-executes the script on every widget change, the project type classification and the field-enable logic run automatically on every interaction without any explicit callback wiring. The electrical sizing and cost calculations, by contrast, are triggered only when the user clicks the Run Analysis button.
+The data flow follows the three layers, as shown in @fig1. In the presentation layer, the user provides the 16 input parameters. The orchestration layer then classifies the project type by comparing the planned apparent load against the existing grid connection, returning one of four types. This project type acts as a control signal that activates or deactivates specific sizing calculations and cost functions, so components that do not apply to the configuration are switched off. In the computational layer, each active component is sized from the inputs into the electrical quantities the cost functions require (current I [A], apparent power S [kVA], total power P [kW], and voltage V [kV]), and each of the 15 cost functions maps these to a cost in euros. Every active cost function returns one investment-cost line item, while inactive components return zero, and together they yield the final itemized cost breakdown.
+
+Because Streamlit re-executes the script on every widget change, the project type classification and the field-enable logic run automatically on every interaction, without any explicit callback wiring. The electrical sizing and cost calculations, by contrast, run only when the user clicks Run Analysis.
 
 #figure(
   image("typst_pictures/fig1_pipeline_abstract.png", width: 100%),
-  caption: [Data pipeline overview, with the three architectural layers shown as bands. The presentation layer (`app.py`) holds the user inputs, the orchestration layer (`calls.py`) performs the project type classification, and the computational layer (`cost.py`) contains the electrical sizing calculations and the cost functions. User inputs feed the project type classifier and the sizing calculations in parallel; the project type (1--4) gates which sizing calculations and cost functions are active; and the sized electrical quantities (I, S, P, V) feed 15 cost functions, each producing one line item in euros.],
+  caption: [Data pipeline overview. The three architectural layers (`app.py`, `calls.py`, `cost.py`) are shown as bands, carrying the user inputs through the project type classification and the electrical sizing and cost functions to the itemized investment cost.],
 ) <fig1>
 
 == Software Functionalities
 
-*Input parameters.* The tool takes 13 numerical and 3 categorical inputs. The charger parameters, namely the number of chargers $n$, power per charger $P$ [kW], and load power factor $"pf"$, drive the planned apparent load calculation and appear in nearly every cost function. The grid and connection parameters cover the existing grid connection capacity $G$ [kVA], LV and MV voltage levels, available transformer capacity, maximum LV connection power, whether a transformer is already present on site, and the transformer safety margin; together these determine the project type and size the MV and LV electrical equipment. The distance and site parameters capture cable runs from the rectifier to the chargers, from the premises to the nearest MV/LV transformer, and to the nearest MV access point, as well as the land area, pavement material, and terrain type that determine cable costs and site preparation cost.
+*Input Configuration.* The tool allows the user to configure a charging station through 13 numerical and 3 categorical inputs. The charger parameters are the number of chargers $n$, the power per charger $P$ [kW], and the load power factor $"pf"$. These drive the planned apparent load calculation and appear in nearly every cost function. The grid and connection parameters cover the existing grid connection capacity $G$ [kVA], the LV and MV voltage levels, the available transformer capacity, the maximum LV connection power, whether a transformer is already present on site, and the transformer safety margin. Together these determine the project type and size the MV and LV electrical equipment. The distance and site parameters capture the cable runs from the rectifier to the chargers, from the premises to the nearest MV/LV transformer, and to the nearest MV access point. They also include the land area, pavement material, and terrain type, which determine the cable and site preparation costs.
 
-The planned apparent load is computed as $S = n dot P slash "pf"$ [kVA] and compared against the existing grid connection capacity $G$. If $S$ is at most $G$ the existing connection is sufficient and the project is classified as Type 1. Otherwise, the uncovered load $S - G$ is compared against the local LV connection threshold: if it fits within LV limits a simple LV upgrade suffices (Type 2), and if it exceeds them a new MV connection is needed (Types 3 and 4). Once the type is known, only the relevant cost components are activated, and fields that do not apply are grayed out in the interface automatically (@fig2).
+The planned apparent load is computed as $S = n dot P slash "pf"$ [kVA] and compared against the existing grid connection capacity $G$. If $S$ is at most $G$ the existing connection is sufficient and the project is classified as Type 1. Otherwise, the uncovered load $S - G$ is compared against the local LV connection threshold: if it fits within LV limits a simple LV upgrade suffices (Type 2), and if it exceeds them a new MV connection is needed (Types 3 and 4). Once the type is known, only the relevant cost components are activated, and fields that do not apply are grayed out in the interface automatically.
 
-#figure(
-  image("typst_pictures/fig2_interface_screenshot.png", width: 95%),
-  caption: [Screenshot of the tool's web interface showing the input parameter form.],
-) <fig2>
-
-*Project type classification.* The tool compares the total planned load (chargers × power / power factor) against the existing grid capacity and assigns one of four project types. Type 1 means the connection already has enough capacity, so only the chargers need to be installed. Type 2 means a small LV upgrade or new LV connection covers the gap. Type 3 means a transformer exists on site but cannot handle the load, so a new MV connection is needed alongside it. Type 4 means the site has only a basic LV connection and needs a full MV buildout from scratch. The type determines which cost components are included and which are zeroed out. @fig3 shows the decision logic.
+*Project type classification.* The project type depends on whether the existing grid connection can supply the planned load. To define it, the tool compares the total planned load (chargers × power / power factor) against the existing grid capacity and assigns one of four project types. In Type 1, the connection already has enough capacity, so only the chargers need to be installed. Type 2 corresponds to a small LV upgrade or a new LV connection that covers the gap. Type 3 indicates that a transformer exists on site but cannot handle the load, so a new MV connection is needed alongside it. Type 4 represents a site that has only a basic LV connection and needs a full MV buildout from scratch. The type determines which cost components are included and which are zeroed out. @fig3 shows the decision logic.
 
 #figure(
   image("typst_pictures/fig3_classification_flowchart.pdf", width: 80%),
   caption: [Flowchart for automatic project type classification.],
 ) <fig3>
 
-*Investment cost model.* The model covers everything from the grid connection point to the charging plug (@fig4) and computes the 15 cost items in three groups. @fig5 shows three representative examples of how inputs flow through the pipeline to produce a cost in euros, ranging from a simple passthrough (Chargers) to a linear sizing calculation (Transformer) to a chained function (MV Connection Cost, which takes the MV cable material cost as its own input).
+*Electrical system sizing and investment cost estimation.* The tool first sizes the electrical system from the grid connection point to the charging plug (@fig4), then estimates the investment cost as 15 items in three groups. @fig5 shows three representative examples of how inputs flow through the pipeline to produce a cost in euros, ranging from a simple passthrough (Chargers) to a linear sizing calculation (Transformer) to a chained function (MV Connection Cost, which takes the MV cable material cost as its own input).
 
 The key intermediate calculations that size electrical components are shown in @tab-sizing, and the cost functions that map those quantities to euros are listed in @tab-costs.
 
@@ -163,9 +160,9 @@ On the MV and substation side, the model prices MVAC cables through an exponenti
   caption: [General layout of a high-power charging station with centralized conversion.],
 ) <fig4>
 
-*Analysis modes.* Three modes are available. Cost Breakdown produces a full itemized table for the exact configuration, exportable to Excel. Single-Variable Sensitivity sweeps one parameter across a user-defined range while holding everything else fixed. Because the swept parameter passes through the full pipeline on every step, increasing the number of chargers, for example, can shift the project type mid-sweep from Type 1 to Type 3 once the planned load exceeds the grid connection capacity, which in turn activates a different set of cost components; the resulting stacked bar chart makes these discontinuities visible. Two-Parameter Sensitivity sweeps two parameters at once and displays the results as a scatter plot color-coded by the second parameter, with full component breakdowns on hover. In both sensitivity modes, every evaluation re-runs the complete pipeline covering project type classification, electrical sizing, and cost computation, so the output reflects the true non-linear response of the cost model to input variation.
+*Analysis functions.* The user can run three analysis functions: Cost Breakdown, Single-Variable Sensitivity, and Two-Parameter Sensitivity. Cost Breakdown produces a full itemized table for the exact configuration, exportable to Excel. Single-Variable Sensitivity sweeps one parameter across a user-defined range while holding everything else fixed. Because the swept parameter passes through the full pipeline on every step, increasing the number of chargers, for example, can shift the project type mid-sweep from Type 1 to Type 3 once the planned load exceeds the grid connection capacity, which in turn activates a different set of cost components; the resulting stacked bar chart makes these discontinuities visible. Two-Parameter Sensitivity sweeps two parameters at once and displays the results as a scatter plot color-coded by the second parameter, with full component breakdowns on hover. In both sensitivity analyses, every evaluation re-runs the complete pipeline covering project type classification, electrical sizing, and cost computation, so the output reflects the true non-linear response of the cost model to input variation.
 
-*Export and deployment.* Every analysis can be exported to Excel. The tool also generates a PDF report with all inputs, tables, and charts included. It runs locally with `streamlit run app.py` or on a cloud host like Streamlit Community Cloud. No installation is needed beyond Python 3.10 and the packages in `requirements.txt`.
+*Results export.* The user can export every analysis to Excel and generate a PDF report with all inputs, tables, and charts included.
 
 #figure(
   image("typst_pictures/fig5_pipeline_examples.png", width: 100%),
@@ -222,7 +219,7 @@ For researchers, the value lies in the open, modular structure of the codebase. 
 // ── 5. Conclusions ───────────────────────────────────────────
 = Conclusions
 
-This paper has introduced an open-source tool that estimates the investment cost of overnight HDV charging infrastructure in Europe, covering 15 cost components from the grid connection to the plug. It classifies projects into four types by grid connection requirement and supports cost breakdown, single-variable, and two-parameter sensitivity analysis through a web interface.
+This paper has introduced an open-source tool that estimates the investment cost of overnight HDV charging infrastructure in Europe, covering 15 cost components from the grid connection to the plug. It assesses each site's grid connection requirements and diagnoses which of the four project types needs to be implemented, then supports cost breakdown, single-variable, and two-parameter sensitivity analysis through a web interface.
 
 Across nine case studies in Germany, Italy, and the UK, costs range from about €20,000 per plug (large Type 1 sites with existing grid capacity) to over €80,000 (small Type 4 sites needing a full MV buildout). Economies of scale are real but have a floor: MV equipment adds a fixed layer that does not shrink much with more chargers. For Type 1 projects, chargers and installation dominate; for Type 3 and 4, the transformer, switchgear, and MV cabling become the main differentiator.
 
@@ -233,7 +230,7 @@ Future work will extend the tool in several directions. The most significant add
 
 *CRediT Authorship Contribution Statement*
 
-*Davide Ferraro:* Writing -- original draft, Software, Methodology, Investigation, Formal analysis, Data curation, Visualization, Validation. *Jagruti Thakur:* Writing -- review & editing, Supervision, Methodology, Conceptualization, Resources, Project administration. *Maria Carolina Gil Ribeiro:* Writing -- review & editing.
+*Davide Ferraro:* Writing -- original draft, Software, Methodology, Investigation, Formal analysis, Data curation, Visualization, Validation. *Maria Carolina Gil Ribeiro:* Writing -- review & editing. *Jagruti Thakur:* Writing -- review & editing, Supervision, Methodology, Conceptualization, Resources, Project administration.
 
 *Declaration of Competing Interest*
 

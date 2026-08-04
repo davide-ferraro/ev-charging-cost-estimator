@@ -3,3 +3,12 @@ __pycache__/
 *.pyc
 .DS_Store
 *.egg-info/
+
+# Internal paper-review process artifacts (not for the public repo)
+paper/review/
+paper/review2.md
+paper/review3.md
+paper/review4.md
+paper/paper.pdf
+paper/*.bak
+paper/*.pre-chargeit.bak

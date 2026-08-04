@@ -1,10 +1,9 @@
-# EV Charging Infrastructure Cost Estimator
+# CHARGE-IT: EV Charging Infrastructure Cost Estimator
 
 A Streamlit web app for estimating investment costs of EV charging stations. Based on the master's thesis research conducted at KTH Royal Institute of Technology in collaboration with Scania AB.
 
 ## Demo
 
-<!-- Replace the path below with your actual GIF -->
 ![App Demo](assets/demo.gif)
 
 ## Features
