@@ -329,3 +329,10 @@ evecosim_2024:
     doi: "10.1109/TSG.2023.3339374"
   url: "https://doi.org/10.1109/TSG.2023.3339374"
   date: 2024
+
+eu_driving_time:
+  type: Legislation
+  title: "Regulation (EC) No 561/2006 of the European Parliament and of the Council on the harmonisation of certain social legislation relating to road transport"
+  author: "Official Journal of the European Union"
+  date: 2006
+  url: "https://eur-lex.europa.eu/eli/reg/2006/561/oj"
