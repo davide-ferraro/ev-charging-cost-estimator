@@ -12,3 +12,7 @@ paper/review4.md
 paper/paper.pdf
 paper/*.bak
 paper/*.pre-chargeit.bak
+
+# local backups and test artefacts
+*.bak
+.pytest_cache/

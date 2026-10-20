@@ -166,7 +166,7 @@ def cables_rectifier_to_chargers_cost_function(quantity,power,low_voltage,distan
             rest_of_current=0
         elif rest_of_current > MAX_CURRENT:
             cost= cost + LV_cables_cost(MAX_CURRENT)
-            rest_of_current=single_cable_nominal_current-MAX_CURRENT
+            rest_of_current -= MAX_CURRENT
     
     cost_total=cost*quantity*distance
 
@@ -217,7 +217,7 @@ def cables_LV_distribution_to_site_cost_function(quantity, power,low_voltage,dis
                 rest_of_current=0
             elif rest_of_current > MAX_CURRENT:
                 cost= cost +LV_cables_cost(MAX_CURRENT)
-                rest_of_current=single_cable_nominal_current-MAX_CURRENT
+                rest_of_current -= MAX_CURRENT
         
         cost_total=cost*N_cables*distance
     
@@ -276,7 +276,7 @@ def cables_MV_distribution_to_site_cost_function(quantity, power,medium_voltage,
                 rest_of_current=0
             elif rest_of_current > MAX_CURRENT:
                 cost= cost +MV_cable_cost(MAX_CURRENT)
-                rest_of_current=single_cable_nominal_current-MAX_CURRENT
+                rest_of_current -= MAX_CURRENT
         
         cost_total=cost*distance
     
@@ -347,9 +347,9 @@ def grounding_resistors_cost_function(voltage, case):
 
 def transformer_cost_function(quantity,power,grid_connection,load_factor,safety_margin,case):
     if case==3:
-        trafo_power= ((quantity*power)/load_factor-grid_connection)*1+(safety_margin/100)
+        trafo_power= ((quantity*power)/load_factor-grid_connection)*(1+safety_margin/100)
     elif case==4:
-        trafo_power= ((quantity*power)/load_factor)*1+(safety_margin/100)
+        trafo_power= ((quantity*power)/load_factor)*(1+safety_margin/100)
     
     trafo_price_2024 = {
         100: 5336,
@@ -379,7 +379,14 @@ def transformer_cost_function(quantity,power,grid_connection,load_factor,safety_
     }
 
     if case>2:
-        price = get_upper_price(trafo_power, trafo_price_2024)
+        largest_unit = max(trafo_price_2024)
+        if trafo_power > largest_unit:
+            # Above the largest catalogue size the load is split across
+            # several identical transformers (as many as needed).
+            units = math.ceil(trafo_power / largest_unit)
+            price = units * get_upper_price(trafo_power / units, trafo_price_2024)
+        else:
+            price = get_upper_price(trafo_power, trafo_price_2024)
     else:
         price=0
 

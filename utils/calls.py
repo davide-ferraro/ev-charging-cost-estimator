@@ -48,7 +48,7 @@ def case_definition(input,trafo_presence):
         else:
             spare_load=chargers_load
         
-        if spare_load<=treshold and grid_capacity>=treshold:
+        if spare_load<=treshold and grid_capacity>=spare_load:
             return 2
         if trafo_presence==1:
             return 3
