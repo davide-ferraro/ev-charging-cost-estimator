@@ -17,3 +17,4 @@ paper/*.pre-chargeit.bak
 *.bak
 .pytest_cache/
 paper/review5.md
+paper/review.md
