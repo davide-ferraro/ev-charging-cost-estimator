@@ -18,3 +18,4 @@ paper/*.pre-chargeit.bak
 .pytest_cache/
 paper/review5.md
 paper/review.md
+paper/docs/
