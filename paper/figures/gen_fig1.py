@@ -58,7 +58,7 @@ def box(cx, w, fill, edge, text, tcolor, h=BH):
             fontweight="bold", color=tcolor, zorder=6)
     return cx - w / 2, cx + w / 2  # left, right edges
 
-USER_L, USER_R = box(13.5, 19, "#BBDEFB", C_PRES, "User Inputs\n(16 parameters)", C_PRES)
+USER_L, USER_R = box(13.5, 19, "#BBDEFB", C_PRES, "User Inputs\n(17 parameters)", C_PRES)
 PT_L,   PT_R   = box(36.5, 19, "#A5D6A7", C_ORCH, "Project Type\nDefinition\n(Type 1 / 2 / 3 / 4)", C_ORCH)
 SIZ_L,  SIZ_R  = box(57,   15, "#FFE0B2", C_SIZ,  "Sizing\nCalculations\n(10 components)", C_SIZ)
 CF_L,   CF_R   = box(76,   15, "#D1C4E9", C_COMP, "Cost\nFunctions\n(15 components)", C_COMP)

@@ -1,17 +1,16 @@
 digraph item {
     rankdir=LR
-    splines=true
-    nodesep=0.5
-    ranksep=1.8
-    node [shape=box, style=filled, fontname="Helvetica", fontsize=11, margin="0.12,0.08"]
-    edge [fontname="Helvetica", fontsize=10]
+    splines=ortho
+    nodesep=0.35
+    ranksep=0.9
+    node [shape=box, style=filled, fontname="Helvetica", fontsize=15, margin="0.14,0.09"]
+    edge [fontname="Helvetica", fontsize=13]
 
-    TITLE [shape=none, label="Cables LVDC (Rectifier-Chargers)", fontname="Helvetica Bold", fontsize=16, fontcolor="#263238"]
 
     subgraph cluster_inputs {
         label="User Inputs"
         fontname="Helvetica Bold"
-        fontsize=13
+        fontsize=16
         fontcolor="#1565C0"
         color="#1565C0"
         style=rounded
@@ -20,12 +19,14 @@ digraph item {
     I2 [label="Power per charger (P) [kW]", fillcolor="#BBDEFB", color="#1565C0"]
     I3 [label="LV level (V_LV) [V]", fillcolor="#BBDEFB", color="#1565C0"]
     I5 [label="Distance rectifier→chargers [m]", fillcolor="#BBDEFB", color="#1565C0"]
+    I1 -> I3 [style=invis]
+    I2 -> I5 [style=invis]
     }
 
     subgraph cluster_sizing {
         label="Sizing Calculations"
         fontname="Helvetica Bold"
-        fontsize=13
+        fontsize=16
         fontcolor="#E65100"
         color="#E65100"
         style=rounded
@@ -36,7 +37,7 @@ digraph item {
     subgraph cluster_cf {
         label="Cost Functions"
         fontname="Helvetica Bold"
-        fontsize=13
+        fontsize=16
         fontcolor="#4527A0"
         color="#4527A0"
         style=rounded

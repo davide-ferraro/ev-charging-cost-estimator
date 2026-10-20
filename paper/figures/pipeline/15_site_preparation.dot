@@ -1,17 +1,16 @@
 digraph item {
     rankdir=LR
-    splines=true
-    nodesep=0.5
-    ranksep=1.8
-    node [shape=box, style=filled, fontname="Helvetica", fontsize=11, margin="0.12,0.08"]
-    edge [fontname="Helvetica", fontsize=10]
+    splines=ortho
+    nodesep=0.35
+    ranksep=0.9
+    node [shape=box, style=filled, fontname="Helvetica", fontsize=15, margin="0.14,0.09"]
+    edge [fontname="Helvetica", fontsize=13]
 
-    TITLE [shape=none, label="Site preparation", fontname="Helvetica Bold", fontsize=16, fontcolor="#263238"]
 
     subgraph cluster_inputs {
         label="User Inputs"
         fontname="Helvetica Bold"
-        fontsize=13
+        fontsize=16
         fontcolor="#1565C0"
         color="#1565C0"
         style=rounded
@@ -19,12 +18,13 @@ digraph item {
     I13 [label="Land area [m²]", fillcolor="#BBDEFB", color="#1565C0"]
     I15 [label="Pavement material", fillcolor="#BBDEFB", color="#1565C0"]
     I16 [label="Land type", fillcolor="#BBDEFB", color="#1565C0"]
+    I13 -> I16 [style=invis]
     }
 
     subgraph cluster_cf {
         label="Cost Functions"
         fontname="Helvetica Bold"
-        fontsize=13
+        fontsize=16
         fontcolor="#4527A0"
         color="#4527A0"
         style=rounded

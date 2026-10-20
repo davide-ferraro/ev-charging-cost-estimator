@@ -23,16 +23,17 @@ ALL_INPUTS = {
     'I14': "Transformer present on premises?",
     'I15': "Pavement material",
     'I16': "Land type",
+    'I17': "Simultaneity factor (f)",
 }
-PT_INPUTS = ['I1','I2','I4','I6','I7','I8','I14']
+PT_INPUTS = ['I1','I2','I4','I6','I7','I8','I14','I17']
 
 SIZING_INFO = {
     'S1':  ("LV Cabinet",             "linear",      "I = n·P/(√3·V_LV)"),
     'S2':  ("DC Cables",              "linear",      "I = n·P/(V·V_LV)"),
-    'S3':  ("LV Distribution Cables", "linear",      "I = (n·P/pf−G)/(√3·V_LV)"),
-    'S4':  ("MV Cables",              "linear",      "I = (n·P/pf−G)/(√3·V_MV)"),
-    'S5':  ("Transformer",            "linear",      "S = (n·P/pf−G)·(1+m)"),
-    'S6':  ("MV Switchgear",          "linear",      "I = (n·P/pf−G)/(√3·V_MV)"),
+    'S3':  ("LV Distribution Cables", "linear",      "I = (S−G)/(√3·V_LV)"),
+    'S4':  ("MV Cables",              "linear",      "I = (S−G)/(√3·V_MV)"),
+    'S5':  ("Transformer",            "linear",      "S_T = (S−G)·(1+m)"),
+    'S6':  ("MV Switchgear",          "linear",      "I = (S−G)/(√3·V_MV)"),
     'S7':  ("Surge Arresters",        "passthrough", "passes V_MV [kV]"),
     'S8':  ("Grounding Resistors",    "passthrough", "passes V_MV [kV]"),
     'S9':  ("Rectifier",              "ceiling",     "k = ⌈n·P / 200⌉"),
@@ -73,19 +74,19 @@ ITEMS = [
 
     ("03_cables_lvac",        "Cables LVAC (Distribution-Site)",
      'S3', "I [A]", "#1565C0",
-     'CF5', ['I1','I2','I3','I4','I6','I9'], ['I9'], True, None),
+     'CF5', ['I1','I2','I3','I4','I6','I9','I17'], ['I9'], True, None),
 
     ("04_cables_mvac",        "Cables MVAC (Distribution-Site)",
      'S4', "I [A]", "#1565C0",
-     'CF6', ['I1','I2','I4','I6','I10','I12'], ['I12'], True, None),
+     'CF6', ['I1','I2','I4','I6','I10','I12','I17'], ['I12'], True, None),
 
     ("05_transformer",        "Transformer",
      'S5', "S [kVA]", "#E65100",
-     'CF7', ['I1','I2','I4','I6','I11'], [], True, None),
+     'CF7', ['I1','I2','I4','I6','I11','I17'], [], True, None),
 
     ("06_switchgear",         "Switchgear",
      'S6', "I [A], V [kV]", "#1565C0",
-     'CF8', ['I1','I2','I4','I6','I10'], ['I10'], True, None),
+     'CF8', ['I1','I2','I4','I6','I10','I17'], ['I10'], True, None),
 
     ("07_surge_arresters",    "Surge Arresters",
      'S7', "V [kV]", "#6A1B9A",
@@ -113,11 +114,11 @@ ITEMS = [
 
     ("13_lv_connection",      "LV connection cost",
      'S3', "I [A]", "#1565C0",
-     'CF5', ['I1','I2','I3','I4','I6','I9'], ['I9'], True, 'CF13'),
+     'CF5', ['I1','I2','I3','I4','I6','I9','I17'], ['I9'], True, 'CF13'),
 
     ("14_mv_connection",      "MV connection cost",
      'S4', "I [A]", "#1565C0",
-     'CF6', ['I1','I2','I4','I6','I10','I12'], ['I12'], True, 'CF14'),
+     'CF6', ['I1','I2','I4','I6','I10','I12','I17'], ['I12'], True, 'CF14'),
 
     ("15_site_preparation",   "Site preparation",
      None, None, None,
@@ -167,29 +168,33 @@ def gen_dot(fname, out_label, sid, s_out_lbl, s_out_col,
     lines = []
     lines.append('digraph item {')
     lines.append('    rankdir=LR')
-    lines.append('    splines=true')
-    lines.append('    nodesep=0.5')
-    lines.append('    ranksep=1.8')
-    lines.append('    node [shape=box, style=filled, fontname="Helvetica", fontsize=11, margin="0.12,0.08"]')
-    lines.append('    edge [fontname="Helvetica", fontsize=10]')
+    lines.append('    splines=ortho')
+    lines.append('    nodesep=0.35')
+    lines.append('    ranksep=0.9')
+    lines.append('    node [shape=box, style=filled, fontname="Helvetica", fontsize=15, margin="0.14,0.09"]')
+    lines.append('    edge [fontname="Helvetica", fontsize=13]')
     lines.append('')
 
     # title
-    lines.append(f'    TITLE [shape=none, label="{out_label}", '
-                 f'fontname="Helvetica Bold", fontsize=16, fontcolor="#263238"]')
+    pass  # panel titles are given in the figure caption
     lines.append('')
 
     # ── User Inputs cluster
     lines.append('    subgraph cluster_inputs {')
     lines.append('        label="User Inputs"')
     lines.append('        fontname="Helvetica Bold"')
-    lines.append('        fontsize=13')
+    lines.append('        fontsize=16')
     lines.append('        fontcolor="#1565C0"')
     lines.append('        color="#1565C0"')
     lines.append('        style=rounded')
     lines.append('        bgcolor="#E3F2FD"')
-    for iid in sorted(all_shown_inputs):
+    shown = sorted(all_shown_inputs, key=lambda x: int(x[1:]))
+    for iid in shown:
         lines.append('    ' + input_node(iid).strip())
+    # two columns: pair the first half with the second half through invisible edges
+    half = (len(shown) + 1) // 2
+    for a, b in zip(shown[:half], shown[half:]):
+        lines.append(f'    {a} -> {b} [style=invis]')
     lines.append('    }')
     lines.append('')
 
@@ -198,13 +203,13 @@ def gen_dot(fname, out_label, sid, s_out_lbl, s_out_col,
         lines.append('    subgraph cluster_pt {')
         lines.append('        label="Project Type"')
         lines.append('        fontname="Helvetica Bold"')
-        lines.append('        fontsize=13')
+        lines.append('        fontsize=16')
         lines.append('        fontcolor="#2E7D32"')
         lines.append('        color="#2E7D32"')
         lines.append('        style=rounded')
         lines.append('        bgcolor="#E8F5E9"')
         lines.append('        PT [label="Project Type\\nClassification\\n(Type 1/2/3/4)", '
-                     'fillcolor="#A5D6A7", color="#2E7D32", fontname="Helvetica Bold", fontsize=10]')
+                     'fillcolor="#A5D6A7", color="#2E7D32", fontname="Helvetica Bold", fontsize=14]')
         lines.append('    }')
         lines.append('')
 
@@ -213,7 +218,7 @@ def gen_dot(fname, out_label, sid, s_out_lbl, s_out_col,
         lines.append('    subgraph cluster_sizing {')
         lines.append('        label="Sizing Calculations"')
         lines.append('        fontname="Helvetica Bold"')
-        lines.append('        fontsize=13')
+        lines.append('        fontsize=16')
         lines.append('        fontcolor="#E65100"')
         lines.append('        color="#E65100"')
         lines.append('        style=rounded')
@@ -226,7 +231,7 @@ def gen_dot(fname, out_label, sid, s_out_lbl, s_out_col,
     lines.append('    subgraph cluster_cf {')
     lines.append('        label="Cost Functions"')
     lines.append('        fontname="Helvetica Bold"')
-    lines.append('        fontsize=13')
+    lines.append('        fontsize=16')
     lines.append('        fontcolor="#4527A0"')
     lines.append('        color="#4527A0"')
     lines.append('        style=rounded')
@@ -290,11 +295,13 @@ for item in ITEMS:
                       cfid, inputs_to_s, extra_to_cf, use_pt, chained)
     dot_path = os.path.join(OUT, f'{fname}.dot')
     png_path = os.path.join(OUT, f'{fname}.png')
+    pdf_path = os.path.join(OUT, f'{fname}.pdf')
     with open(dot_path, 'w') as f:
         f.write(dot_src)
     result = subprocess.run(
         ['dot', '-Tpng', f'-Gdpi=150', dot_path, '-o', png_path],
         capture_output=True, text=True
     )
+    subprocess.run(['dot', '-Tpdf', dot_path, '-o', pdf_path], capture_output=True, text=True)
     status = "✓" if result.returncode == 0 else f"✗ {result.stderr[:80]}"
     print(f"{fname}: {status}")
