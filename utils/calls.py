@@ -1,7 +1,8 @@
 from .cost import *
 
 
-def medium_requirement(number_of_chargers,power_of_chargers,current_grid_connection_capacity,load_power_factor,transformer_presence,treshold):
+def medium_requirement(number_of_chargers,power_of_chargers,current_grid_connection_capacity,load_power_factor,transformer_presence,treshold,simultaneity=1.0):
+    power_of_chargers = power_of_chargers*simultaneity
     if (number_of_chargers*power_of_chargers/load_power_factor)> current_grid_connection_capacity:
         if transformer_presence==True:
             uncovered_load=(number_of_chargers*power_of_chargers/load_power_factor)-current_grid_connection_capacity
@@ -17,7 +18,8 @@ def medium_requirement(number_of_chargers,power_of_chargers,current_grid_connect
     else:
         return False
     
-def hard_requirement(number_of_chargers,power_of_chargers,current_grid_connection_capacity,load_power_factor,transformer_presence,treshold,close_trafo_power):
+def hard_requirement(number_of_chargers,power_of_chargers,current_grid_connection_capacity,load_power_factor,transformer_presence,treshold,close_trafo_power,simultaneity=1.0):
+    power_of_chargers = power_of_chargers*simultaneity
     if (number_of_chargers*power_of_chargers/load_power_factor)> current_grid_connection_capacity:
         if transformer_presence==True:
             uncovered_load=(number_of_chargers*power_of_chargers/load_power_factor)-current_grid_connection_capacity
@@ -35,7 +37,8 @@ def hard_requirement(number_of_chargers,power_of_chargers,current_grid_connectio
         return False
 
 def case_definition(input,trafo_presence):
-    chargers_load= input["Number of chargers"]*input["Power of chargers [kW]"]/input["Load Power Factor"]
+    simultaneity = input.get("Simultaneity factor", 1.0)
+    chargers_load= input["Number of chargers"]*input["Power of chargers [kW]"]*simultaneity/input["Load Power Factor"]
     connection=input["Grid Connection capacity [kVA]"]
     treshold=input["Maximum power for Low Voltage Connections in your area [kVA]"]
     grid_capacity=input["Available Capacity of the closest MV/LV transformer [kVA]"]
@@ -56,6 +59,10 @@ def case_definition(input,trafo_presence):
             return 4
 
 def compute_all_costs(input, case, select_material, select_land_type):
+    # Grid-side items (distribution cables, transformer, switchgear) are sized on the
+    # coincident load, i.e. installed charger power scaled by the simultaneity factor.
+    # Charger-side items keep the full installed power per plug.
+    coincident_power = input["Power of chargers [kW]"]*input.get("Simultaneity factor", 1.0)
     chargers_cost = charger_cost_function(
         input["Number of chargers"],
         input["Power of chargers [kW]"])
@@ -77,7 +84,7 @@ def compute_all_costs(input, case, select_material, select_land_type):
 
     cables_LV_distribution_to_site_cost = cables_LV_distribution_to_site_cost_function(
         input["Number of chargers"],
-        input["Power of chargers [kW]"],
+        coincident_power,
         input["Low Voltage level [V]"],
         input["Distance between your premises and the closest MV/LV transformer [meters]"],
         input["Grid Connection capacity [kVA]"],
@@ -86,7 +93,7 @@ def compute_all_costs(input, case, select_material, select_land_type):
 
     cables_MV_distribution_to_site_cost = cables_MV_distribution_to_site_cost_function(
         input["Number of chargers"],
-        input["Power of chargers [kW]"],
+        coincident_power,
         input["Medium Voltage level [kV]"],
         input["Distance between your premises and the closest Medium Voltage Access point [meters]"],
         input["Grid Connection capacity [kVA]"],
@@ -103,7 +110,7 @@ def compute_all_costs(input, case, select_material, select_land_type):
 
     transformer_cost = transformer_cost_function(
         input["Number of chargers"],
-        input["Power of chargers [kW]"],
+        coincident_power,
         input["Grid Connection capacity [kVA]"],
         input["Load Power Factor"],
         input["Transformer size safety margin for your new transformer [%]"],
@@ -111,7 +118,7 @@ def compute_all_costs(input, case, select_material, select_land_type):
 
     switchgear_cost = switchgear_cost_function(
         input["Number of chargers"],
-        input["Power of chargers [kW]"],
+        coincident_power,
         input["Grid Connection capacity [kVA]"],
         input["Load Power Factor"],
         input["Medium Voltage level [kV]"],
@@ -248,7 +255,8 @@ def sensitivity_step(min_val, max_val,label):
         "Medium Voltage level [kV]": 5,
         "Transformer size safety margin for your new transformer [%]": 1,
         "Distance between your premises and the closest Medium Voltage Access point [meters]": 100,
-        "Land to prepare for hosting the parking lot [m^2]": 100
+        "Land to prepare for hosting the parking lot [m^2]": 100,
+        "Simultaneity factor": 0.05
     }
     #range_span = max_val - min_val
     if label in custom_steps:
@@ -272,6 +280,7 @@ def cost_breakdown_double_sensitivity_calculation(input, trafo_presence, select_
         "Transformer size safety margin for your new transformer [%]": (0, 50, 5),
         "Distance between your premises and the closest Medium Voltage Access point [meters]": (0, 3000 ,100),
         "Land to prepare for hosting the parking lot [m^2]": (0, 50000, 1000),
+        "Simultaneity factor": (0.2, 1.0, 0.05),
     }
 
     results = {}

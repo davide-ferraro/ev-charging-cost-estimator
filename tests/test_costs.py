@@ -95,3 +95,38 @@ def test_safety_margin_changes_transformer_size():
     assert p0 == 8679 and p50 == 10315
     assert transformer_cost_function(4, 100, 200, 1.0, 20, 3) == 9497   # 240 -> 250
 
+
+
+# A1 -- simultaneity factor (Reviewer 2, Round 5)
+def test_simultaneity_default_leaves_results_unchanged():
+    inp = _inputs()
+    with_f = _inputs(**{"Simultaneity factor": 1.0})
+    for trafo in (True, False):
+        assert case_definition(inp, trafo) == case_definition(with_f, trafo)
+        c0 = compute_all_costs(inp, case_definition(inp, trafo), "Asphalt", "Low Slope / Light Vegetation")
+        c1 = compute_all_costs(with_f, case_definition(with_f, trafo), "Asphalt", "Low Slope / Light Vegetation")
+        assert c0 == c1
+
+
+def test_simultaneity_can_avoid_mv_connection():
+    # 10 x 100 kW, pf 1, grid 500 kVA: unmanaged -> Type 3, 50% simultaneity -> Type 1
+    base = {"Number of chargers": 10, "Load Power Factor": 1.0, "Grid Connection capacity [kVA]": 500}
+    assert case_definition(_inputs(**base), True) == 3
+    assert hard_requirement(10, 100, 500, 1.0, True, 200, 1000) is True
+    managed = _inputs(**base, **{"Simultaneity factor": 0.5})
+    assert case_definition(managed, True) == 1
+    assert hard_requirement(10, 100, 500, 1.0, True, 200, 1000, simultaneity=0.5) is False
+
+
+def test_simultaneity_scales_grid_side_only():
+    base = {"Number of chargers": 10, "Load Power Factor": 1.0, "Grid Connection capacity [kVA]": 0}
+    full = _inputs(**base)
+    half = _inputs(**base, **{"Simultaneity factor": 0.5})
+    c_full = compute_all_costs(full, 4, "Asphalt", "Low Slope / Light Vegetation")
+    c_half = compute_all_costs(half, 4, "Asphalt", "Low Slope / Light Vegetation")
+    assert c_half["transformer_cost"] < c_full["transformer_cost"]
+    assert c_half["switchgear_cost"] < c_full["switchgear_cost"]
+    assert c_half["cables_MV_distribution_to_site_cost"] <= c_full["cables_MV_distribution_to_site_cost"]
+    for k in ("chargers_cost", "rectifier_cost", "low_voltage_cabinet_cost",
+              "cables_rectifier_to_chargers_cost", "planning_cost", "installation_cost"):
+        assert c_half[k] == c_full[k], k

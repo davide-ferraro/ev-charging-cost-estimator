@@ -348,6 +348,7 @@ INPUT_DICT = {
     "Transformer size safety margin for your new transformer [%]": (0, 100, 5, 20, False),
     "Distance between your premises and the closest Medium Voltage Access point [meters]": (0, 5000, 50, 500, False),
     "Land to prepare for hosting the parking lot [m^2]": (0, 100000, 100, 0, False),
+    "Simultaneity factor": (0.1, 1.0, 0.05, 1.0, True),
 }
 
 INPUT_LABELS = list(INPUT_DICT.keys())
@@ -359,6 +360,13 @@ TOOLTIPS = {
     ),
     "Maximum power for Low Voltage Connections in your area [kVA]": (
         "200 kVA is a reasonable default in Europe. If unsure, leave at 200."
+    ),
+    "Simultaneity factor": (
+        "Share of the installed charger power drawn from the grid at the same time. "
+        "1.0 means all plugs deliver full power simultaneously (unmanaged charging). "
+        "Lower values represent managed charging that caps the site peak; the grid "
+        "connection, transformer, switchgear and distribution cables are sized on this "
+        "reduced load, while chargers, rectifiers and cabling to the plugs are not."
     ),
 }
 
@@ -781,7 +789,7 @@ trafo_flag = transformer_present == "Yes"
 # --- Basic Parameters ---
 st.markdown('<div class="group-label">Basic Parameters</div>', unsafe_allow_html=True)
 col1, col2, col3 = st.columns(3)
-basic_labels = INPUT_LABELS[:7]
+basic_labels = INPUT_LABELS[:7] + [INPUT_LABELS[13]]
 cols = [col1, col2, col3]
 for i, label in enumerate(basic_labels):
     with cols[i % 3]:
@@ -795,6 +803,7 @@ med_req = medium_requirement(
     input_values["Load Power Factor"],
     trafo_flag,
     input_values["Maximum power for Low Voltage Connections in your area [kVA]"],
+    input_values["Simultaneity factor"],
 )
 
 # --- Low Voltage Connection ---
@@ -814,6 +823,7 @@ hard_req = hard_requirement(
     trafo_flag,
     input_values["Maximum power for Low Voltage Connections in your area [kVA]"],
     input_values["Available Capacity of the closest MV/LV transformer [kVA]"],
+    input_values["Simultaneity factor"],
 )
 
 # --- Medium Voltage Connection ---
