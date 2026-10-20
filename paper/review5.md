@@ -1,5 +1,7 @@
 # Round 5 — Official SoftwareX Reviewer Comments + Software Test Report (Oct 2026)
 
+Manuscript **SOFTX-D-26-00980**. Official package `review/round5/official/` (decision PDF + Reviewer 4 docx) received 2026-10-20; content identical to the texts Davide pasted earlier. Two reviewers: **Reviewer 2** and **Reviewer 4**. No editor comments in the package.
+
 First round from the journal's own reviewers after the 2 Aug 2026 submission. Raw inputs in
 `review/round5/`: `reviewer_comments_raw.md` (verbatim, typos preserved),
 `EV Charging Cost Software_TestFeedbacks.docx` + `test_screenshots/` (software test report, 4 bugs).
@@ -25,7 +27,7 @@ planned load, grid connection capacity). Show before/after to Davide for every s
 
 ---
 
-## A. Reviewer 2 (Sept 18)
+## A. Reviewer 2 (official: "Reviewer 2 - Initial submission, 18/09/2026")
 
 ### A1. Simultaneity factor of charging processes — MAJOR
 **Difficulty: ⭐⭐⭐⭐** ✅ DONE · _tool + paper §2.2 + §1 + §5_
@@ -58,7 +60,7 @@ and future work. Weaker; reviewer marked it major.
 
 ---
 
-## B. Second reviewer ("Reviewer Comments, CHARGE-IT")
+## B. Reviewer 4 (official: "Reviewer 4 - Initial submission, 29/09/2026", comments in attached docx)
 
 ### B1. Why "overnight"? Can the station be used daytime / en-route?
 **Difficulty: ⭐⭐** ✅ DONE · _§1 or §2.2_
@@ -186,7 +188,7 @@ those cases are Type 3/4; must recompute Table 3 / Figures 5–6 after the fix.
 - D1-old ☐ Recompute all nine case studies after C3/C4 (and A1 if default = 1.0 results must be
   unchanged except for bug fixes). Regenerate Figures 5 and 6 and Table 3 if numbers move.
 - D2 ✅ partly: version v1.1.0 in metadata table, README and new `CITATION.cff`; `docs/USER_GUIDE.md` written and linked from the metadata table and README. **Zenodo DOI still needs Davide** (log in at zenodo.org with GitHub, enable the repo, create release v1.1.0 on GitHub; then put the DOI in the metadata table / README).
-- D3 ✅ draft: `review/round5/response_letter.md` in Carolina's format (comment, reply, quoted revised text). Reviewer numbering assumed: unnumbered review = Reviewer 1, simultaneity review = Reviewer 2; confirm against the decision letter. Annotated PDF not produced (journal wants the letter); can be generated with `review/annotate.py` if Jagruti wants it.
+- D3 ✅ draft: `review/round5/response_letter.md` in Carolina's format (comment, reply, quoted revised text). Reformatted to the official package: Reviewer 2 (18/09/2026) and Reviewer 4 (29/09/2026), manuscript SOFTX-D-26-00980, replies in blue, quoted revised text. Annotated PDF not produced (journal wants the letter); can be generated with `review/annotate.py` if Jagruti wants it.
 - D4 ✅ (C1–C4, D6) `tests/test_costs.py`, 8 tests pass; committed locally (not pushed) (`venv/bin/python -m pytest tests -q`). A1 tests to add.
 - D6 ✅ (Davide OK 2026-10-20, fixed + test) Observed, not reported by anyone: in `cost_breakdown_sensitivity_calculation` the "Total" omits planning, MV connection and LV connection costs, whereas the Cost Breakdown total includes them. Fix only with Davide's OK (changes sensitivity totals).
 - D7 ✅ DONE (redrawn with Graphviz, `figures/classification_flowchart.dot`; old PDF kept in review/round5/) **Flowchart (Figure 2, `fig3_classification_flowchart.pdf`) still shows the old Type 2 test "Grid Capacity >= Threshold"; after C3 it must read "Grid Capacity >= Spare" and the load box must include f. No source file (thesis PDF): redraw (Graphviz, same look as the pipeline figures).**
