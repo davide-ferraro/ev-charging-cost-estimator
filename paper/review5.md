@@ -185,14 +185,13 @@ those cases are Type 3/4; must recompute Table 3 / Figures 5–6 after the fix.
 - D1 ✅ DECIDED (keep figures, state the fix and its <1% effect in the response letter) **Impact of C3/C4 on published numbers:** Figures 5–6 (fig6_cost_per_plug, fig7_case_studies) are thesis PDFs computed with the old code. C4 raises transformer size by the margin (20% default) for every Type 3/4 case, typically one catalogue bracket (+€800 to €3,000 per site, well under 1% of totals). C3 only matters when the nearby transformer's spare capacity lies between the uncovered load and the LV threshold. Full case inputs (distances, LV level, margin) are only in thesis radar plots, not in text. Needs decision: recompute with Davide's thesis input files, or keep figures and state the bracket shift in the response letter.
 - D1-old ☐ Recompute all nine case studies after C3/C4 (and A1 if default = 1.0 results must be
   unchanged except for bug fixes). Regenerate Figures 5 and 6 and Table 3 if numbers move.
-- D2 ☐ Bump version (v1.1.0), update code-metadata table, create Zenodo DOI, fill the
-  "Link to developer documentation" placeholder (still `_To be added_`).
-- D3 ☐ Point-by-point response letter (`review/round5/response_letter.md`) + annotated PDF.
+- D2 ✅ partly: version v1.1.0 in metadata table, README and new `CITATION.cff`; `docs/USER_GUIDE.md` written and linked from the metadata table and README. **Zenodo DOI still needs Davide** (log in at zenodo.org with GitHub, enable the repo, create release v1.1.0 on GitHub; then put the DOI in the metadata table / README).
+- D3 ✅ draft: `review/round5/response_letter.md` in Carolina's format (comment, reply, quoted revised text). Reviewer numbering assumed: unnumbered review = Reviewer 1, simultaneity review = Reviewer 2; confirm against the decision letter. Annotated PDF not produced (journal wants the letter); can be generated with `review/annotate.py` if Jagruti wants it.
 - D4 ✅ (C1–C4, D6) `tests/test_costs.py`, 8 tests pass; committed locally (not pushed) (`venv/bin/python -m pytest tests -q`). A1 tests to add.
 - D6 ✅ (Davide OK 2026-10-20, fixed + test) Observed, not reported by anyone: in `cost_breakdown_sensitivity_calculation` the "Total" omits planning, MV connection and LV connection costs, whereas the Cost Breakdown total includes them. Fix only with Davide's OK (changes sensitivity totals).
 - D7 ✅ DONE (redrawn with Graphviz, `figures/classification_flowchart.dot`; old PDF kept in review/round5/) **Flowchart (Figure 2, `fig3_classification_flowchart.pdf`) still shows the old Type 2 test "Grid Capacity >= Threshold"; after C3 it must read "Grid Capacity >= Spare" and the load box must include f. No source file (thesis PDF): redraw (Graphviz, same look as the pipeline figures).**
 - D8 ✅ DONE (gen_fig1.py → 17 parameters, regenerated) **Figure 1 (`gen_fig1.py`) says "User Inputs (16 parameters)" → 17 after A1. Regenerate.**
-- D5 ☐ Keep word count ≤ 4000 and figures ≤ 6 after additions (A1, B1, B2, B3 add text).
+- D5 ✅ 3580 body words (Sections 1–5, figures/tables excluded), 6 figures, 16 pages compiled.
 
 ## Decisions made up front (resolved with Davide 2026-10-20)
 | # | Question | Decision |

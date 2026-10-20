@@ -54,13 +54,13 @@ The deployment of overnight charging infrastructure for battery-electric heavy-d
     stroke: 0.5pt,
     fill: (col, row) => if row == 0 { luma(230) } else { white },
     [*Field*], [*Value*],
-    [Current code version], [v1.0.0],
+    [Current code version], [v1.1.0],
     [Permanent link to repository], [https://github.com/davide-ferraro/ev-charging-cost-estimator],
     [Legal Code License], [MIT],
     [Code versioning system], [git],
     [Languages, tools and services], [Python, Streamlit, Plotly, Pandas, NumPy, OpenPyXL],
     [Operating environments and dependencies], [Python ≥ 3.10],
-    [Link to developer documentation], [_To be added_],
+    [Link to developer documentation], [https://github.com/davide-ferraro/ev-charging-cost-estimator/blob/main/docs/USER_GUIDE.md],
     [Support email], [davideferraro275\@gmail.com],
   )
 )

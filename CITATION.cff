@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+title: "CHARGE-IT: Investment Cost Estimation Tool for Overnight Charging Infrastructure of Heavy-Duty Vehicles in Europe"
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - family-names: Ferraro
+    given-names: Davide
+  - family-names: Gil Ribeiro
+    given-names: Maria Carolina
+  - family-names: Thakur
+    given-names: Jagruti
+    affiliation: KTH Royal Institute of Technology
+version: 1.1.0
+date-released: 2026-10-20
+license: MIT
+repository-code: https://github.com/davide-ferraro/ev-charging-cost-estimator
+url: https://ev-charging-cost-estimator.streamlit.app

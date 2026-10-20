@@ -9,6 +9,8 @@ A Streamlit web app for estimating investment costs of EV charging stations. Bas
 ## Features
 
 - **Cost Breakdown** — Itemized cost estimate for chargers, cables, transformers, switchgear, installation, site preparation, and more
+- **Project type detection** — Works out whether the existing connection is enough, an LV upgrade suffices, or a new MV connection is needed
+- **Simultaneity factor** — Size the grid connection for managed charging instead of every plug at full power
 - **Sensitivity Analysis** — Vary one parameter at a time to see which inputs drive costs the most
 - **Two-Parameter Sensitivity** — Vary two parameters simultaneously with an interactive scatter plot
 - **PDF Report Export** — Generate a full report with inputs, tables, charts, and a methodology reference
@@ -28,6 +30,12 @@ source venv/bin/activate
 pip install -r requirements.txt
 streamlit run app.py
 ```
+
+## Documentation
+
+Inputs, project type logic, cost items and how to update the price tables: [docs/USER_GUIDE.md](docs/USER_GUIDE.md)
+
+Run the regression tests with `python -m pytest tests -q`.
 
 ## Full Report
 
