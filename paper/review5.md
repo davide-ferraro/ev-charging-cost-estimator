@@ -54,7 +54,7 @@ and future work. Weaker; reviewer marked it major.
 **Fix applied:** `numbering: "1"` added to `#set page`.
 
 ### A3. Figure 4 not readable (shared with B5)
-**Difficulty: ⭐⭐⭐** ☐ · see B5.
+**Difficulty: ⭐⭐⭐** ✅ DONE · see B5.
 
 ---
 
@@ -68,72 +68,72 @@ overnight framing drives the design assumptions (long dwell → 20–100 kW per 
 parked and plugged simultaneously, which is why the default simultaneity is 1.0; see A1). Ties
 to European HDV duty cycles and the 9 h rest period (EU 561/2006). Mention MCS/en-route as out
 of scope (already partly in Conclusions).
-**Fix applied:** §1 contribution paragraph: three sentences (hardware not tied to time of day; overnight = design case, rest period ≥ 9 h under Regulation (EC) 561/2006, 20–100 kW per plug, 10–350 kW range, MCS out of scope). New reference [30] `eu_driving_time`. Approved by Davide.
+**Fix applied:** Via B5. §1 contribution paragraph: three sentences (hardware not tied to time of day; overnight = design case, rest period ≥ 9 h under Regulation (EC) 561/2006, 20–100 kW per plug, 10–350 kW range, MCS out of scope). New reference [30] `eu_driving_time`. Approved by Davide.
 
 ### B2. Reference HOMER and XENDEE as complex commercial alternatives
-**Difficulty: ⭐⭐** ☐ · _§1 related-software paragraph_
+**Difficulty: ⭐⭐** ✅ DONE · _§1 related-software paragraph_
 > *"reference one additional set of similarly intentioned but much more complex tools: HOMER and XENDEE [...] emphasize the value of the CHARGE-IT tool in terms of being no cost, accessible, and easy-to-use"*
 **Proposed solution:** one or two sentences + 2 new `references.yml` entries (HOMER Pro / HOMER
 Grid, XENDEE). Word budget is fine (≈3330/4000).
-**Fix applied:**
+**Fix applied:** Two sentences added in §1 after the EV-EcoSim sentence; new refs HOMER Pro (UL Solutions) and XENDEE. Approved by Davide.
 
 ### B3. Modularity also matters to fleet operators (cost functions updatable) — say it earlier
-**Difficulty: ⭐⭐** ☐ · _§1 contribution paragraph or §2.1_
+**Difficulty: ⭐⭐** ✅ DONE · _§1 contribution paragraph or §2.1_
 > *"if Cost Functions can be updated as costs change, that helps maintain the tool's relevance over time. If this is something that is in fact feasible, the authors should mention it higher up"*
 **Proposed solution:** It is feasible: all price tables are plain dicts in `cost.py`. Add a
 sentence in §1/§2.1, and make it true in practice: move price tables into one clearly named
 place (or at least document "how to update prices" in README/docs). Keep §4 Impact sentence.
-**Fix applied:**
+**Fix applied:** One sentence at the end of the §2.1 architecture paragraph (prices live in lookup tables and fitted coefficients in cost.py, replaceable without touching the rest). §4 researcher paragraph kept. Approved by Davide.
 
 ### B4. Citation numbering not in order of appearance
-**Difficulty: ⭐⭐** ☐ · _bibliography_
+**Difficulty: ⭐⭐** ✅ DONE · _bibliography_
 > *"the citation numbers do not correspond to their order of appearance in the text"*
 **Proposed solution:** check the `#bibliography(style: ...)` call; switch to a numeric style
 that orders by first citation (e.g. Typst `ieee` or Elsevier numeric), verify the list order
 after compile.
-**Fix applied:**
+**Fix applied:** Citations are literal [n] with a hand-written list. Scripted renumbering by first appearance over prose and caption lines only (table cells untouched); list reordered; verified sequential 1–31.
 
 ### B5. Figures 4(b) and 4(c) hard to read — split User Inputs into two columns
-**Difficulty: ⭐⭐⭐** ☐ · _`gen_pipeline_items.py` → `fig5_pipeline_examples.png`_
+**Difficulty: ⭐⭐⭐** ✅ DONE · _`gen_pipeline_items.py` → `fig5_pipeline_examples.png`_
 > *"Figures 4(b) and 4(c) are quite difficult to read and could possibly benefit from having the 'User Inputs' split into two columns (so that the other components and text could be larger)"*
 Also Reviewer 2: *"figure 4 is not well readable"*.
 **Proposed solution:** regenerate (b) and (c) with inputs in two columns, larger font, and
 export at higher resolution / as vector (PDF or SVG) instead of PNG. Re-check at print size.
-**Fix applied:**
+**Fix applied:** `gen_pipeline_items.py`: inputs in two columns (invisible pairing edges), orthogonal edges, node font 15, cluster labels 16, redundant panel title removed, ranksep 0.9; PDF output. Paper figure now a Typst grid of three vector panels (a)(b)(c). Simultaneity input added to the grid-side panels and formulas written in terms of S.
 
 ### B6. Citation [6] (ICCT 2022) not findable — add link
-**Difficulty: ⭐** ☐
+**Difficulty: ⭐** ✅ DONE
 **Proposed solution:** URL exists in yml but is not printed; fix style/entry so the URL and
 report title print. Verify the ICCT link still resolves.
-**Fix applied:**
+**Fix applied:** Entry corrected: the ICCT document at that URL is the white paper "Charging solutions for battery-electric trucks" (Rajon Bernard, Tankou, Cui, Ragon, Dec 2022); URL printed. Verified from the PDF cover.
 
 ### B7. Citation [8] (McKinsey, Broer et al.) dated 2023, should be 2024 — add link
-**Difficulty: ⭐** ☐
+**Difficulty: ⭐** ✅ DONE
 **Proposed solution:** verify publication date on mckinsey.com, correct `date`, make sure URL
 prints.
-**Fix applied:**
+**Fix applied:** Verified on McKinsey mirror: authors A. Herlt, E. Hildebrandt, H. Becker; published 19 Sep 2024. Entry and yml corrected, URL printed.
 
 ### B8. Citation [11] (Burton et al., NREL 2020) not findable
-**Difficulty: ⭐** ☐
+**Difficulty: ⭐** ✅ DONE
 **Proposed solution:** verify `docs.nrel.gov/docs/fy20osti/75269.pdf` (may have moved with the
 lab rename, see B9); correct title/authors/report number and print the URL.
-**Fix applied:**
+**Fix applied:** Found to be a mis-citation inherited from the thesis: NREL 75269 is Elgqvist & Pohl, NREL/PR-6A20-75269 (Nov 2019), light-duty, REopt; no Burton, nothing on trucks. Davide chose: drop it and reattribute the sentence to Borlaug et al. 2021 (Nature Energy), claim verified against abstract and NREL summary (80% of 36 substations need no upgrade, smart charging spares another 10%).
 
 ### B9. "nrel" → "nlr" (lab renamed National Laboratory of the Rockies)
-**Difficulty: ⭐** ☐ · _[11], [22], any nrel.gov URL_
+**Difficulty: ⭐** ✅ DONE · _[11], [22], any nrel.gov URL_
 **Proposed solution:** update author/institution names and URLs to the new domain where the
 documents have moved; keep old URL only if the new one does not resolve.
-**Fix applied:**
+**Fix applied:** Lab renamed National Laboratory of the Rockies on 1 Dec 2025; nrel.gov no longer resolves, nlr.gov does. EVI-X entry now "National Laboratory of the Rockies (formerly NREL)" with nlr.gov URL. No other nrel links remain after B8.
 
 ### B10. Citation [17] (Synthesis of Expert Interviews) not findable — source of the cost functions
-**Difficulty: ⭐⭐⭐** ☐ · _MUST FIX before publication_
+**Difficulty: ⭐⭐⭐** ✅ DONE · _MUST FIX before publication_
 > *"I could not find citation [17], although this is quite important to demonstrate the source of the cost functions, which are the crux of the tool – so this needs to be updated before the paper is published."*
 **Proposed solution (needs decision):** the interview synthesis is unpublished thesis material.
 Options: (a) cite the public KTH thesis (DIVA, TRITA-ITM-EX 2025:525) where the synthesis and
 all price tables are documented; (b) publish a `docs/cost_data_sources.md` in the repo listing
 every price table with its source (interviews, Csanyi, ICCT, catalogues) and cite that via the
 Zenodo DOI; (c) both. Recommend (c).
-**Fix applied:**
+**Fix applied:** Replaced by the public KTH thesis record (D. Ferraro, TRITA-ITM-EX 2025:525, DIVA URL), which documents the interview synthesis and every price table. yml key `ferraro_thesis`.
 
 ---
 
@@ -190,8 +190,8 @@ those cases are Type 3/4; must recompute Table 3 / Figures 5–6 after the fix.
 - D3 ☐ Point-by-point response letter (`review/round5/response_letter.md`) + annotated PDF.
 - D4 ✅ (C1–C4, D6) `tests/test_costs.py`, 8 tests pass; committed locally (not pushed) (`venv/bin/python -m pytest tests -q`). A1 tests to add.
 - D6 ✅ (Davide OK 2026-10-20, fixed + test) Observed, not reported by anyone: in `cost_breakdown_sensitivity_calculation` the "Total" omits planning, MV connection and LV connection costs, whereas the Cost Breakdown total includes them. Fix only with Davide's OK (changes sensitivity totals).
-- D7 ☐ **Flowchart (Figure 2, `fig3_classification_flowchart.pdf`) still shows the old Type 2 test "Grid Capacity >= Threshold"; after C3 it must read "Grid Capacity >= Spare" and the load box must include f. No source file (thesis PDF): redraw (Graphviz, same look as the pipeline figures).**
-- D8 ☐ **Figure 1 (`gen_fig1.py`) says "User Inputs (16 parameters)" → 17 after A1. Regenerate.**
+- D7 ✅ DONE (redrawn with Graphviz, `figures/classification_flowchart.dot`; old PDF kept in review/round5/) **Flowchart (Figure 2, `fig3_classification_flowchart.pdf`) still shows the old Type 2 test "Grid Capacity >= Threshold"; after C3 it must read "Grid Capacity >= Spare" and the load box must include f. No source file (thesis PDF): redraw (Graphviz, same look as the pipeline figures).**
+- D8 ✅ DONE (gen_fig1.py → 17 parameters, regenerated) **Figure 1 (`gen_fig1.py`) says "User Inputs (16 parameters)" → 17 after A1. Regenerate.**
 - D5 ☐ Keep word count ≤ 4000 and figures ≤ 6 after additions (A1, B1, B2, B3 add text).
 
 ## Decisions made up front (resolved with Davide 2026-10-20)
